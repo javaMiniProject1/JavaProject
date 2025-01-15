@@ -11,7 +11,7 @@ import com.sist.vo.MemberVO;
 public class MemberDAO {
 	Connection conn;
 	PreparedStatement ps ;
-	private final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
+	private final String URL = "jdbc:oracle:thin:@211.238.142.124:1521:1521:XE";
 	private static MemberDAO dao;
 	
 	public MemberDAO() {
@@ -61,12 +61,13 @@ public class MemberDAO {
 	EMAIL    NOT NULL VARCHAR2(100) 
 	JOIN              CLOB 
 	 */
-	public MemberVO getMemberInfo() { // 채팅방 회원 상세보기
+	public MemberVO getMemberInfo(String id) { // 채팅방 회원 상세보기, 매개변수 서버에서?
 		MemberVO vo = new MemberVO();
 		try {
 			getConnection(); 
 			String sql = "SELECT id, name, nickname, sex "
-					   + "FROM member";
+					   + "FROM member "
+					   + "WHERE id = " + id;
 			
 			ps = conn.prepareStatement(sql);
 			
