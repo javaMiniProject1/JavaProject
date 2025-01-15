@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 
 public class MovieMain {
 	public static void main(String[] args) {
+		MovieDAO dao = MovieDAO.newInstance();
 		String[] movieNum = {"61175","56448","61932","61853","61738"
 				,"57542","61854","61487","61244","61558"
 				,"61957","61579","2676","61912","61119",
@@ -101,9 +102,8 @@ public class MovieMain {
 			}
 			movie.setGrade(grade);
 			// Movie 정보 출력
-			System.out.println(movie);
 			
-		
+		dao.MovieInsert(movie);
 		} catch (Exception e) {
 			
 			e.printStackTrace();
