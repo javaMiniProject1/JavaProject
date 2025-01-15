@@ -4,6 +4,7 @@ package com.sist.main;
 
 
 import java.util.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,18 +13,29 @@ import org.jsoup.select.Elements;
 
 public class MovieMain {
 	public static void main(String[] args) {
-		String[] movieNum = {};
-		MovieVO movie = null;
+		String[] movieNum = {"61175","56448","61932","61853","61738"
+				,"57542","61854","61487","61244","61558"
+				,"61957","61579","2676","61912","61119",
+				"61884","59945","61989","61860","61950",
+				"61206","21799","58814","8724","61981",
+				"61863","5496","61934","61760","61900",
+				"61943","61523","61905","58356","61931",
+				"61757","61951","61572","59284","61401",
+				"61788", "61936","28917","61961",
+				"61131","61960","61790","15806","61327"
+				,"61811", "61048","61048","60801","61797","46314","61859","2929","61753","61818","54227","54227","61850","1267","61831","962","60886","61915", "61941","61928","48621","61044","48895","61862","61866","61771","54608","61417","58527","61661","48079","47818","52898","5825",  "60741","38803", "24827","41182","41182","39810","29025",  "61106","312","61648","61916","60970","61110","61065",  "672","61147","61733","399","61969","59566","61448","44529","61855","61930","61759","61149","61929","60611","61804","7610","61405","24540","61742","14","61620","61846","61836","41064","61824","58537","61522","61975","61793",   "57339","61315","8696","2949", "3250","60211","61664", "61810","61525"};
+		Movie movie = null;
 		for(int j = 0;j<movieNum.length;j++) {
 			
 			
 		try {
+			System.out.println(movieNum[j]);
 			// 크롤링할 URL
 			String url = "http://www.cine21.com/movie/info/?movie_id="+movieNum[j];
 			// HTML 문서 가져오기
 			Document doc = Jsoup.connect(url).get();
 			// Movie 객체 생성
-			movie = new MovieVO();
+			movie = new Movie();
 			// 영화 제목
 			String title = doc.select(".mov_info .tit").text();
 			movie.setM_title(title);
@@ -41,11 +53,13 @@ public class MovieMain {
 			movie.setGenre(genre);
 			movie.setRuntime(runtime);
 			// 개봉일
+				
 			String releaseDateStr = doc.select(".sub_info").get(2).select("span").get(0).text().replace("개봉일 :", "")
 					.trim();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			movie.setReg_date(dateFormat.parse(releaseDateStr));
 			//누적관객
+			
 			int total_audi = Integer.parseInt(doc.select(".sub_info").get(2).select("span").get(1).text().replace("누적관객 :", "").replace("명", "").replace(",", "").trim());
 			movie.setTotal_audi(total_audi);
 			Elements personElements = doc.select(".sub_info a[href*='/person/info']");
@@ -88,9 +102,9 @@ public class MovieMain {
 			movie.setGrade(grade);
 			// Movie 정보 출력
 			System.out.println(movie);
-
+		
 		} catch (Exception e) {
-
+			
 			e.printStackTrace();
 
 		}
