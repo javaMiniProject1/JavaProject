@@ -3,6 +3,8 @@ package com.sist.main;
 
 
 import com.sist.dao.*;
+import com.sist.vo.MovieVO;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import org.jsoup.Jsoup;

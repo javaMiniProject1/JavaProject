@@ -1,5 +1,7 @@
 package com.sist.dao;
 import com.sist.main.*;
+import com.sist.vo.MovieVO;
+
 import java.sql.*;
 
 public class MovieDAO {
@@ -40,7 +42,7 @@ public class MovieDAO {
 		try {
 			getConnection();
 			String sql="INSERT INTO movie VALUES(movie_mno_seq.nextval,"
-					+ "?,?,?,?,?,?,?,?,?,?,0,?,?)";
+					+ "?,?,?,?,?,?,?,?,?,?,NVL(?,0),?,?)";
 			ps=conn.prepareStatement(sql);
 			
 			ps.setString(1, vo.getM_title());//title
@@ -53,7 +55,7 @@ public class MovieDAO {
 			ps.setInt(8, vo.getTotal_audi());//total audi
 			ps.setString(9, vo.getDir());//dir
 			ps.setString(10, vo.getAct());//act
-			ps.setDouble(11, vo.getRaiting());;//rate
+			ps.setDouble(11, vo.getRaiting() != null ? vo.getRaiting() : 0.0);
 			ps.setString(12, vo.getStory());//story
 			ps.setString(13, vo.getGrade());//grade
 			ps.executeUpdate();

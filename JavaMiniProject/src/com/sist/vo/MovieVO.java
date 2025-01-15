@@ -1,4 +1,4 @@
-package com.sist.main;
+package com.sist.vo;
 
 import java.util.Date;
 
