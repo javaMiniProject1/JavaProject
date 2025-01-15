@@ -40,19 +40,22 @@ public class MovieDAO {
 		try {
 			getConnection();
 			String sql="INSERT INTO movie VALUES(movie_mno_seq.nextval,"
-					+ "?,?,?,?,?,?,sysdate,?,?,?,0,?,?)";
+					+ "?,?,?,?,?,?,?,?,?,?,0,?,?)";
 			ps=conn.prepareStatement(sql);
+			
 			ps.setString(1, vo.getM_title());//title
 			ps.setString(2, vo.getM_eng_title());//eng title
 			ps.setString(3, vo.getM_post());//post
 			ps.setString(4, vo.getNation());//nation
 			ps.setString(5, vo.getGenre());//genre
 			ps.setString(6, vo.getRuntime());//runtime
-			ps.setInt(7, vo.getTotal_audi());//total audi
-			ps.setString(8, vo.getDir());//dir
-			ps.setString(9, vo.getAct());//act
-			ps.setString(10, vo.getStory());//story
-			ps.setString(11, vo.getGrade());//grade
+			ps.setDate(7, new java.sql.Date(vo.getReg_date().getTime()));//regdate
+			ps.setInt(8, vo.getTotal_audi());//total audi
+			ps.setString(9, vo.getDir());//dir
+			ps.setString(10, vo.getAct());//act
+			ps.setDouble(11, vo.getRaiting());;//rate
+			ps.setString(12, vo.getStory());//story
+			ps.setString(13, vo.getGrade());//grade
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,3 +63,4 @@ public class MovieDAO {
 			disConnection();
 		}
 	}
+}

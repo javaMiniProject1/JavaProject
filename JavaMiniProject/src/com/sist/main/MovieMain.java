@@ -2,9 +2,8 @@ package com.sist.main;
 
 
 
-
+import com.sist.dao.*;
 import java.util.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +23,8 @@ public class MovieMain {
 				"61788", "61936","28917","61961",
 				"61131","61960","61790","15806","61327"
 				,"61811", "61048","61048","60801","61797","46314","61859","2929","61753","61818","54227","54227","61850","1267","61831","962","60886","61915", "61941","61928","48621","61044","48895","61862","61866","61771","54608","61417","58527","61661","48079","47818","52898","5825",  "60741","38803", "24827","41182","41182","39810","29025",  "61106","312","61648","61916","60970","61110","61065",  "672","61147","61733","399","61969","59566","61448","44529","61855","61930","61759","61149","61929","60611","61804","7610","61405","24540","61742","14","61620","61846","61836","41064","61824","58537","61522","61975","61793",   "57339","61315","8696","2949", "3250","60211","61664", "61810","61525"};
-		Movie movie = null;
+		MovieVO movie = null;
+		
 		for(int j = 0;j<movieNum.length;j++) {
 			
 			
@@ -35,7 +35,7 @@ public class MovieMain {
 			// HTML 문서 가져오기
 			Document doc = Jsoup.connect(url).get();
 			// Movie 객체 생성
-			movie = new Movie();
+			movie = new MovieVO();
 			// 영화 제목
 			String title = doc.select(".mov_info .tit").text();
 			movie.setM_title(title);
@@ -102,6 +102,7 @@ public class MovieMain {
 			movie.setGrade(grade);
 			// Movie 정보 출력
 			System.out.println(movie);
+			
 		
 		} catch (Exception e) {
 			
