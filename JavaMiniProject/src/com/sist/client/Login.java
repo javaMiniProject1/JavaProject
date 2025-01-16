@@ -8,31 +8,37 @@ public class Login extends JFrame{
     JButton b1,b2;
     public Login()
     {
-    	la1=new JLabel("ID");
-        la2=new JLabel("Password");
-        tf=new JTextField();
-        pf=new JPasswordField();
-        b1=new JButton("로그인");
-        b2=new JButton("취소");
-        
-        // 배치 => 실행과 동시에 실행 명령 => 초기화 => 생성자
-        setLayout(null);
-        la1.setBounds(10, 15, 80, 30);
-        tf.setBounds(95, 15, 200, 30);
-        add(la1);add(tf);
-        
-        la2.setBounds(10, 50, 80, 30);
-        pf.setBounds(95, 50, 200, 30);
-        add(la2);add(pf);
-        
-        JPanel p=new JPanel();
-        p.setOpaque(false);
-        p.add(b1);
-        p.add(b2);
-        p.setBounds(10, 90, 285, 35);
-        add(p);
-        
-        setBounds(400,300,330, 170);
-        setVisible(true);// 화면 출력
+    	la1=new JLabel("아이디");
+		la1.setPreferredSize(new Dimension(280, 16));
+		la2=new JLabel("비밀번호");
+		la2.setPreferredSize(new Dimension(280, 16));
+		
+		tf=new JTextField();
+		tf.setPreferredSize(new Dimension(280, 35));
+		pf=new JPasswordField();
+		pf.setPreferredSize(new Dimension(280, 35));
+		
+		b1=new JButton("로그인");
+		b1.setPreferredSize(new Dimension(280, 45));
+		b2=new JButton("종료");
+		b2.setPreferredSize(new Dimension(280, 45));
+		
+		Font btnfont = new Font("btnfont", Font.BOLD, 16);
+		b1.setFont(btnfont);
+		b2.setFont(btnfont);
+		b1.setBackground(new Color(55,161,54));
+		b2.setBackground(new Color(173,173,173));
+		b1.setForeground(Color.WHITE);
+		b2.setForeground(Color.WHITE);
+		
+		setLayout(new FlowLayout());
+		add(la1); add(tf);
+		add(la2); add(pf);
+		
+		add(b1); add(b2);
+		
+		setSize(320, 280);
+		setVisible(true);
+		setLocationRelativeTo(null);
     }
 }
