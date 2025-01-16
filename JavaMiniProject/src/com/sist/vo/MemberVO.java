@@ -17,18 +17,18 @@ JOIN              CLOB
 import java.util.Date;
 
 public class MemberVO {
-	private String id, pwd, name, nickname, sex, post, addr1, addr2, phone, email, join,msg;
-	private Date birthday;
-	
-	
-	public String getId() {
-		return id;
-	}
+	private String id, pwd, name, nickname, sex, post, addr1, addr2, phone, email, join, msg;
 	public String getMsg() {
 		return msg;
 	}
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	private Date birthday;
+	
+	
+	public String getId() {
+		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
