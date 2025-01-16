@@ -11,7 +11,7 @@ import com.sist.vo.MemberVO;
 public class MemberDAO {
 	Connection conn;
 	PreparedStatement ps ;
-	private final String URL = "jdbc:oracle:thin:@211.238.142.124:1521:1521:XE";
+	private final String URL = "jdbc:oracle:thin:@211.238.142.124:1521:XE";
 	private static MemberDAO dao;
 	
 	public MemberDAO() {
@@ -67,16 +67,19 @@ public class MemberDAO {
 			getConnection(); 
 			String sql = "SELECT id, name, nickname, sex "
 					   + "FROM member "
-					   + "WHERE id = " + id;
+					   + "WHERE id = ?";
+			
 			
 			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, id);
 			
 			ResultSet rs = ps.executeQuery();
 			
 			rs.next();
 			
 			vo.setId(rs.getString(1));
-			vo.setName(rs.getNString(2));
+			vo.setName(rs.getString(2));
 			vo.setNickname(rs.getString(3));
 			vo.setSex(rs.getString(4));
 			
