@@ -95,7 +95,7 @@ implements ActionListener,Runnable,KeyListener
 					  setVisible(true);
 				  }
 				  break;
-				  case Function.WAITCHAT:
+				  case Function.SENDMESSAGE:
 				  {
 					  cp.cp.ta.append(st.nextToken()+"\n");
 				  }
