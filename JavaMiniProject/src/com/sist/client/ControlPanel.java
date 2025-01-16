@@ -11,6 +11,7 @@ public class ControlPanel extends JPanel{
     HomePenal hp;
     ChatPenal cp;
     BoardMainPanel bp;
+    MoviePenal mp;
     CardLayout card=new CardLayout();
     public ControlPanel()
     {
@@ -21,6 +22,8 @@ public class ControlPanel extends JPanel{
     	add("CHAT",cp);
     	bp=new BoardMainPanel(this);
     	add("BOARD",bp);
+    	mp=new MoviePenal(this);
+    	add("MOVIE",mp);
     }
     
 }

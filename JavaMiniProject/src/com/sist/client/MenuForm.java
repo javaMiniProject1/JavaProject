@@ -10,9 +10,9 @@ import javax.swing.*;
  */
 public class MenuForm extends JPanel{
   public JButton b1=new JButton("홈");
-  public JButton b2=new JButton("맛집");
-  public JButton b3=new JButton("맛집 검색");
-  public JButton b4=new JButton("맛집 예약");
+  public JButton b2=new JButton("영화 목록");
+  public JButton b3=new JButton("영화 검색");
+  public JButton b4=new JButton("영화 예약");
   public JButton b5=new JButton("커뮤니티");
   public JButton b6=new JButton("실시간 채팅");
   public JButton b7=new JButton("실시간 뉴스");
