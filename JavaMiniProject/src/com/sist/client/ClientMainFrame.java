@@ -51,7 +51,7 @@ implements ActionListener,Runnable,KeyListener
 		
 		mf.b6.addActionListener(this);
 		mf.b1.addActionListener(this);
-		
+		mf.b5.addActionListener(this);
 		cp.cp.inputChat.addActionListener(this); // 채팅 입력 버튼
 	}
 	public static void main(String[] args) {
@@ -161,6 +161,10 @@ implements ActionListener,Runnable,KeyListener
 		else if(e.getSource()==mf.b1)
 		{
 			cp.card.show(cp, "HOME");
+		}
+		else if(e.getSource()==mf.b5)
+		{
+			cp.card.show(cp, "BOARD");
 		}
 		else if (e.getSource() == cp.cp.inputChat) {
 			String msg = cp.cp.inputChat.getText();

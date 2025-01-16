@@ -10,6 +10,7 @@ import javax.swing.*;
 public class ControlPanel extends JPanel{
     HomePenal hp;
     ChatPenal cp;
+    BoardMainPanel bp;
     CardLayout card=new CardLayout();
     public ControlPanel()
     {
@@ -18,6 +19,8 @@ public class ControlPanel extends JPanel{
     	add("HOME",hp);
     	cp=new ChatPenal(this);
     	add("CHAT",cp);
+    	bp=new BoardMainPanel(this);
+    	add("BOARD",bp);
     }
     
 }
