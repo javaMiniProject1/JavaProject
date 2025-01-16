@@ -160,13 +160,11 @@ public class Server implements Runnable{
 						  // 5. 방정보 전송 
 					  }
 					  break;
-					  case Function.SENDMESSAGE :
+					  case Function.WAITCHAT :
 					  {
-						  messageAll(Function.SENDMESSAGE + "|[" + name + "] " + st.nextToken());
-						  break;
+						  messageAll(Function.WAITCHAT + "|[" + name + "] " + st.nextToken());
 					  }
-					  case Function.EXIT : 
-					  {
+					  case Function.EXIT : {
 							messageAll(Function.EXIT + "|" + id);
 							messageAll(Function.WAITCHAT + "|[알림]" + name + "님이 퇴장하셨습니다.");
 							messageTo(Function.MYEXIT + "|");
@@ -179,10 +177,10 @@ public class Server implements Runnable{
 										out.close();
 									} catch (Exception ex) {
 										ex.printStackTrace();
+										
 									} break;
 								}
 							}
-							break;
 					  }
 					}
 				}

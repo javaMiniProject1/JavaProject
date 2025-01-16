@@ -95,7 +95,7 @@ implements ActionListener,Runnable,KeyListener
 					  setVisible(true);
 				  }
 				  break;
-				  case Function.SENDMESSAGE:
+				  case Function.WAITCHAT:
 				  {
 					  cp.cp.ta.append(st.nextToken()+"\n");
 				  }
@@ -179,7 +179,7 @@ implements ActionListener,Runnable,KeyListener
 			}
 			
 			try {
-				out.write((Function.SENDMESSAGE + "|" + msg + "\n").getBytes());
+				out.write((Function.WAITCHAT + "|" + msg + "\n").getBytes());
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
