@@ -5,7 +5,7 @@ import javax.swing.border.LineBorder;
 
 import java.awt.event.*;
 import com.sist.commons.ImageChange;
-import com.sist.dao.FoodDAO;
+import com.sist.dao.MovieDAO;
 import com.sist.vo.*;
 import java.util.List;
 import java.net.*;
@@ -22,8 +22,8 @@ implements MouseListener,ActionListener
 	int curpage=1;
 	int totalpage=0;
 	
-	// 데이터베이스 연동 => FoodDAO 
-	FoodDAO dao=FoodDAO.newInstance();
+	// 데이터베이스 연동 => MovieDAO 
+	MovieDAO dao=MovieDAO.newInstance();
     public HomePenal(ControlPanel cp)
     {
     	// JPenal => FlowLayout - - - 
@@ -57,18 +57,18 @@ implements MouseListener,ActionListener
     public void print()
     {
     	// 총페이지 읽기 
-    	totalpage=dao.foodTotalPage();
-    	List<FoodVO> list=dao.foodListData(curpage);
+    	totalpage=dao.MovieTotalPage();
+    	List<MovieVO> list=dao.MovieListData(curpage);
     	for(int i=0;i<list.size();i++)
     	{
-    		FoodVO vo=list.get(i);
+    		MovieVO vo=list.get(i);
     		try
     		{
-    			URL url=new URL(vo.getPoster());
+    			URL url=new URL(vo.getM_post());
     			Image image=
     				ImageChange.getImage(new ImageIcon(url), 200, 180);
     			imgs[i]=new JLabel(new ImageIcon(image));
-    			imgs[i].setToolTipText(vo.getName()+"^"+vo.getFno());
+    			imgs[i].setToolTipText(vo.getM_title()+"^"+vo.getM_no());
     			pan.add(imgs[i]);
     			// 이벤트 등록 
     			imgs[i].addMouseListener(this);

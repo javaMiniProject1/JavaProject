@@ -3,7 +3,7 @@ package com.sist.vo;
 import java.util.Date;
 
 public class MovieVO {
-	
+		private int m_no;
 		private String m_title;
 		private String m_eng_title;
 		private String m_post;
@@ -13,6 +13,13 @@ public class MovieVO {
 		private Date reg_date;
 		private int total_audi;
 		private String dir;
+		private String act;
+		private Double raiting;
+		private String story;
+		private String grade;
+
+		
+		
 		public String getM_title() {
 			return m_title;
 		}
@@ -91,10 +98,12 @@ public class MovieVO {
 		public void setGrade(String grade) {
 			this.grade = grade;
 		}
-		private String act;
-		private Double raiting;
-		private String story;
-		private String grade;
-
+		public int getM_no() {
+			return m_no;
+		}
+		public void setM_no(int m_no) {
+			this.m_no = m_no;
+		}
+		
 	}
 

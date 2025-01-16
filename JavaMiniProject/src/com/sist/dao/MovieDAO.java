@@ -3,6 +3,8 @@ import com.sist.main.*;
 import com.sist.vo.MovieVO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieDAO {
 	private Connection conn;
@@ -65,4 +67,116 @@ public class MovieDAO {
 			disConnection();
 		}
 	}
+	public List<MovieVO> MovieList() {
+		List<MovieVO> list = new ArrayList<MovieVO>();
+		try {
+			getConnection();
+			String sql = "SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade FROM movie";
+			ps=conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				MovieVO vo = new MovieVO();
+				vo.setM_no(rs.getInt(1));
+				vo.setM_title(rs.getString(2));
+				vo.setM_post(rs.getString(3));
+				vo.setM_eng_title(rs.getString(4));
+				vo.setNation(rs.getString(5));
+				vo.setGenre(rs.getString(6));
+				vo.setRuntime(rs.getString(7));
+				vo.setReg_date(rs.getDate(8));
+				vo.setTotal_audi(rs.getInt(9));
+				vo.setDir(rs.getString(10));
+				vo.setAct(rs.getString(11));
+				vo.setRaiting(rs.getDouble(12));
+				vo.setStory(rs.getString(13));
+				vo.setGrade(rs.getString(14));
+				list.add(vo);
+				
+			}
+			rs.close();
+
+		} catch (Exception e) {
+		} finally {
+			disConnection();
+		}
+		return list;
+	}
+	public List<MovieVO> MovieListData(int page)
+	   {
+		   List<MovieVO> list=
+				  new ArrayList<MovieVO>();
+		   try
+		   {
+			   // 1. 연결 
+			   getConnection();
+			   // 2. SQL문장 제작 
+			   String sql = "SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade FROM movie";
+			   // 3. SQL문장 오라클로 전송 
+			   ps=conn.prepareStatement(sql);
+			   // 4. ?에 데이터값을 채운다 
+			   /*
+			    *   1page => 1~12
+			    *   2page => 13~24
+			    */
+			   int rowSize=12;
+			   int start=(rowSize*page)-(rowSize-1);
+			   int end=rowSize*page;
+			   
+			   ps.setInt(1, start);
+			   ps.setInt(2, end);
+			   
+			   // 실행=> 결과값 
+			   ResultSet rs=ps.executeQuery();
+			   while(rs.next())
+			   {
+				   MovieVO vo = new MovieVO();
+					vo.setM_no(rs.getInt(1));
+					vo.setM_title(rs.getString(2));
+					vo.setM_post(rs.getString(3));
+					vo.setM_eng_title(rs.getString(4));
+					vo.setNation(rs.getString(5));
+					vo.setGenre(rs.getString(6));
+					vo.setRuntime(rs.getString(7));
+					vo.setReg_date(rs.getDate(8));
+					vo.setTotal_audi(rs.getInt(9));
+					vo.setDir(rs.getString(10));
+					vo.setAct(rs.getString(11));
+					vo.setRaiting(rs.getDouble(12));
+					vo.setStory(rs.getString(13));
+					vo.setGrade(rs.getString(14));
+					list.add(vo);
+			   }
+			   rs.close();
+			   
+		   }catch(Exception ex)
+		   {
+			   // 오류 확인 
+			   ex.printStackTrace();
+		   }
+		   finally
+		   {
+			   // 닫기 
+			   disConnection();
+		   }
+		   return list;
+	   }
+	
+	public int MovieTotalPage() {
+		   int total=0;
+		   try {
+			   getConnection();
+			   String sql="SELECT CEIL(COUNT(*)/12.0) FROM movie";
+			   ps=conn.prepareStatement(sql);
+			   ResultSet rs = ps.executeQuery();
+			   rs.next();
+			   total= rs.getInt(1);
+			   rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}finally {
+			disConnection();
+		}
+		   return total;
+	   }
 }
