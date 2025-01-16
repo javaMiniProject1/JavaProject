@@ -179,4 +179,38 @@ public class MovieDAO {
 		}
 		   return total;
 	   }
+	
+	 // 1-2 인기순위 10개 
+	   public List<MovieVO> movieTop10()
+	   {
+		   List<MovieVO> list=
+				   new ArrayList<MovieVO>();
+		   try
+		   {
+			   getConnection();
+			   String sql="select num,m_title "
+			   		+ "from (select rownum as num,m_title "
+			   		+ "from (select /*+INDEX ASC(movie m_mno_pk)*/m_title "
+			   		+ "from movie)) "
+			   		+ "where num<=15";
+			   ps=conn.prepareStatement(sql);
+			   ResultSet rs=ps.executeQuery();
+			   while(rs.next())
+			   {
+				   MovieVO vo=new MovieVO();
+				   vo.setM_no(rs.getInt(1));
+				   vo.setM_title(rs.getString(2));
+				   list.add(vo);
+			   }
+			   rs.close();
+		   }catch(Exception ex)
+		   {
+			   ex.printStackTrace();
+		   }
+		   finally
+		   {
+			   disConnection();
+		   }
+		   return list;
+	   }
 }
