@@ -164,7 +164,7 @@ implements ActionListener,Runnable
 	{
 		try
 		{
-			s=new Socket("localhost",3355);
+			s=new Socket("192.168.10.107",3050);
 			// 서버 연결 => s는 서버
 			// 서버로 전송 
 			out=s.getOutputStream();
