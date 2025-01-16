@@ -160,6 +160,30 @@ public class Server implements Runnable{
 						  // 5. 방정보 전송 
 					  }
 					  break;
+					  case Function.SENDMESSAGE :
+					  {
+						  messageAll(Function.SENDMESSAGE + "|[" + name + "] " + st.nextToken());
+						  break;
+					  }
+					  case Function.EXIT : 
+					  {
+							messageAll(Function.EXIT + "|" + id);
+							messageAll(Function.WAITCHAT + "|[알림]" + name + "님이 퇴장하셨습니다.");
+							messageTo(Function.MYEXIT + "|");
+							for (int i = 0; i < waitVc.size(); i++) { // 나가기 시 제거
+								Client c = waitVc.get(i);
+								if (c.id.equals(id)) {
+									waitVc.remove(i);
+									try {
+										in.close();
+										out.close();
+									} catch (Exception ex) {
+										ex.printStackTrace();
+									} break;
+								}
+							}
+							break;
+					  }
 					}
 				}
 			}catch(Exception ex) {}
