@@ -20,7 +20,7 @@ import java.net.*;
  *   
  */
 public class ClientMainFrame extends JFrame
-implements ActionListener,Runnable
+implements ActionListener,Runnable,KeyListener
 {
 	/// 네트워크 통신 
 	Socket s;
@@ -46,7 +46,8 @@ implements ActionListener,Runnable
 		// 로그인 
 		login.b1.addActionListener(this);
 		login.b2.addActionListener(this);
-		
+		login.tf.addKeyListener(this);
+		login.pf.addKeyListener(this);
 		
 		mf.b6.addActionListener(this);
 		mf.b1.addActionListener(this);
@@ -181,5 +182,22 @@ implements ActionListener,Runnable
 		}catch(Exception ex) {}
 		// 서버로부터 값을 받아서 출력 
 		new Thread(this).start(); // run()메소드 호출 
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			login.b1.doClick();
+		}
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
