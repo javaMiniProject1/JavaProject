@@ -52,7 +52,8 @@ implements ActionListener,Runnable,KeyListener
 		mf.b6.addActionListener(this);
 		mf.b1.addActionListener(this);
 		mf.b5.addActionListener(this);
-		mf.b2.addActionListener(this);
+		mf.b2.addActionListener(this);//전체 영화
+		mf.b3.addActionListener(this);//영화 검색
 		cp.cp.inputChatBtn.addActionListener(this); // 채팅 입력 버튼
 		cp.cp.tf.addActionListener(this); // 채팅 입력창
 		
@@ -204,6 +205,10 @@ implements ActionListener,Runnable,KeyListener
 		else if(e.getSource()==mf.b2)
 		{
 			cp.card.show(cp, "MOVIE");
+		}
+		else if(e.getSource()==mf.b3)
+		{
+			cp.card.show(cp, "MFP");
 		}
 		else if (e.getSource() == cp.cp.tf || e.getSource() == cp.cp.inputChatBtn) {
 			String msg = cp.cp.tf.getText();
