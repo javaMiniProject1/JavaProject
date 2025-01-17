@@ -162,15 +162,17 @@ public class Server implements Runnable{
 					  break;
 					  case Function.WAITCHAT :
 					  {
-						  messageAll(Function.WAITCHAT + "|[" + name + "] " + st.nextToken());
+						  messageAll(Function.WAITCHAT + "|[" + id + "] " + st.nextToken());
 					  }
-					  case Function.EXIT : {
+					  break;
+					  case Function.EXIT : 
+					  {
 							messageAll(Function.EXIT + "|" + id);
-							messageAll(Function.WAITCHAT + "|[알림]" + name + "님이 퇴장하셨습니다.");
-							messageTo(Function.MYEXIT + "|");
+							messageAll(Function.WAITCHAT + "|[알림]" + id + "님이 퇴장하셨습니다.");
 							for (int i = 0; i < waitVc.size(); i++) { // 나가기 시 제거
 								Client c = waitVc.get(i);
 								if (c.id.equals(id)) {
+									messageTo(Function.MYEXIT + "|");
 									waitVc.remove(i);
 									try {
 										in.close();
@@ -178,10 +180,11 @@ public class Server implements Runnable{
 									} catch (Exception ex) {
 										ex.printStackTrace();
 										
-									} break;
+									}
 								}
 							}
 					  }
+					  break;
 					}
 				}
 			}catch(Exception ex) {}
@@ -202,13 +205,14 @@ public class Server implements Runnable{
 		// => 접속자 전체 전송 
 		public synchronized void messageAll(String msg)
 		{
-			try
-			{
-				for(Client client:waitVc)
-				{
-					client.messageTo(msg);
+			for (int i = 0; i < waitVc.size(); i++) {
+				Client c = waitVc.get(i);
+				try {
+					c.messageTo(msg);
+				} catch (Exception ex) {
+					waitVc.remove(i);
 				}
-			}catch(Exception ex) {}
+			}
 		}
 	}
 

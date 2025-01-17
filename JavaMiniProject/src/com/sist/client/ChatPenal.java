@@ -10,8 +10,8 @@ public class ChatPenal extends JPanel {
     JTextField tf;
     JTable table;
     DefaultTableModel model;
-    JButton b1, b2, inputChat;
-
+    JButton b1, b2, inputChatBtn;
+    JScrollBar bar;
     ControlPanel cp;
 
     public ChatPenal(ControlPanel cp) {
@@ -25,16 +25,17 @@ public class ChatPenal extends JPanel {
                 new LineBorder(new Color(200, 200, 200), 1),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         JScrollPane js = new JScrollPane(ta);
+        bar = js.getVerticalScrollBar();
 
         // 입력 필드와 버튼
         tf = new JTextField();
         tf.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         tf.setBorder(new LineBorder(new Color(150, 150, 150), 1));
-        inputChat = new JButton("입력");
-        inputChat.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-        inputChat.setBackground(new Color(63, 81, 181)); 
-        inputChat.setForeground(Color.WHITE); 
-        inputChat.setFocusPainted(false); 
+        inputChatBtn = new JButton("입력");
+        inputChatBtn.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+        inputChatBtn.setBackground(new Color(63, 81, 181)); 
+        inputChatBtn.setForeground(Color.WHITE); 
+        inputChatBtn.setFocusPainted(false); 
 
         // 사용자 정보 테이블
         String[] col = { "아이디", "이름", "성별" };
@@ -72,9 +73,9 @@ public class ChatPenal extends JPanel {
         inputPanel.setBounds(100, 475, 465, 40);
 
         tf.setBounds(0, 0, 380, 30); 
-        inputChat.setBounds(380, 0, 80, 30); 
+        inputChatBtn.setBounds(380, 0, 80, 30); 
         inputPanel.add(tf, BorderLayout.CENTER);
-        inputPanel.add(inputChat, BorderLayout.EAST); 
+        inputPanel.add(inputChatBtn, BorderLayout.EAST); 
         add(inputPanel);
 
         // 사용자 테이블 배치

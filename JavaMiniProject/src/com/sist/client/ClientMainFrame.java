@@ -53,7 +53,22 @@ implements ActionListener,Runnable,KeyListener
 		mf.b1.addActionListener(this);
 		mf.b5.addActionListener(this);
 		mf.b2.addActionListener(this);
-		cp.cp.inputChat.addActionListener(this); // 채팅 입력 버튼
+		cp.cp.inputChatBtn.addActionListener(this); // 채팅 입력 버튼
+		cp.cp.tf.addActionListener(this); // 채팅 입력창
+		
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					out.write((Function.EXIT + "|\n").getBytes());
+				} catch (Exception ex) {
+					// TODO: handle exception
+				}
+			}
+			
+		});
 	}
 	public static void main(String[] args) {
 		try
@@ -98,6 +113,25 @@ implements ActionListener,Runnable,KeyListener
 				  case Function.WAITCHAT:
 				  {
 					  cp.cp.ta.append(st.nextToken()+"\n");
+					  cp.cp.bar.setValue(cp.cp.bar.getMaximum());
+				  }
+				  break;
+				  case Function.MYEXIT :
+				  {
+					  dispose();
+					  System.exit(0);
+				  }
+				  break;
+				  case Function.EXIT :
+				  {
+					  String yid = st.nextToken();
+					  for (int i = 0; i < cp.cp.model.getColumnCount(); i++) {
+						String id = cp.cp.model.getValueAt(i, 0).toString();
+						if (yid.equals(id)) {
+							cp.cp.model.removeRow(i);
+							break;
+						}
+					}
 				  }
 				  break;
 				}
@@ -171,10 +205,10 @@ implements ActionListener,Runnable,KeyListener
 		{
 			cp.card.show(cp, "MOVIE");
 		}
-		else if (e.getSource() == cp.cp.inputChat) {
-			String msg = cp.cp.inputChat.getText();
+		else if (e.getSource() == cp.cp.tf || e.getSource() == cp.cp.inputChatBtn) {
+			String msg = cp.cp.tf.getText();
 			if (msg.trim().isEmpty()) {
-				cp.cp.inputChat.requestFocus();
+				cp.cp.tf.requestFocus();
 				return;
 			}
 			
@@ -183,14 +217,15 @@ implements ActionListener,Runnable,KeyListener
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			cp.cp.inputChat.setText("");
+			cp.cp.tf.setText("");
+			cp.cp.tf.requestFocus();
 		}
 	}
 	public void connection(MemberVO vo)
 	{
 		try
 		{
-			s=new Socket("192.168.10.107",3050);
+			s=new Socket("192.168.10.107",3050); 
 			// 서버 연결 => s는 서버
 			// 서버로 전송 
 			out=s.getOutputStream();
