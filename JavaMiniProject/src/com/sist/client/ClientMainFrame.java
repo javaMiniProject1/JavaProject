@@ -42,6 +42,7 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		cp.setBounds(10, 75, 820, 570);
 		add(cp);
 		setSize(850,700);
+		setLocationRelativeTo(null);
 		
 		// 등록 
 		// 로그인 
