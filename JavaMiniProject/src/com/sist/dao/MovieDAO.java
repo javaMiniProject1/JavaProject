@@ -190,8 +190,8 @@ public class MovieDAO {
 			   getConnection();
 			   String sql="select num,m_title "
 			   		+ "from (select rownum as num,m_title "
-			   		+ "from (select /*+INDEX ASC(movie m_mno_pk)*/m_title "
-			   		+ "from movie)) "
+			   		+ "from (select m_title "
+			   		+ "from movie order by m_no)) "
 			   		+ "where num<=15";
 			   ps=conn.prepareStatement(sql);
 			   ResultSet rs=ps.executeQuery();
