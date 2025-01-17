@@ -61,7 +61,7 @@ public class MemberDAO {
 	EMAIL    NOT NULL VARCHAR2(100) 
 	JOIN              CLOB 
 	 */
-	public MemberVO getMemberInfo(String id) { // 채팅방 회원 상세보기, 매개변수 서버에서?
+	public MemberVO getMemberInfo(String id) { // 채팅방 회원 상세보기
 		MemberVO vo = new MemberVO();
 		try {
 			getConnection(); 

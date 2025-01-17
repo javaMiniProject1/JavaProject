@@ -13,6 +13,7 @@ public class ControlPanel extends JPanel{
     BoardMainPanel bp;
     MoviePenal mp;
     MovieFindPenal mfp;
+    MovieDetailPenal mdp;
     CardLayout card=new CardLayout();
     public ControlPanel()
     {
@@ -27,6 +28,8 @@ public class ControlPanel extends JPanel{
     	add("MOVIE",mp);
     	mfp=new MovieFindPenal(this);
     	add("MFP",mfp);
+    	mdp=new MovieDetailPenal(this);
+    	add("DETAIL",mdp);
     }
     
 }

@@ -17,7 +17,6 @@ implements MouseListener,ActionListener
 	ControlPanel cp;
 	JPanel pan=new JPanel();
 	// 이미지 출력 
-	JLabel la=new JLabel("0 page / 0 pages");
 	JLabel[] imgs=new JLabel[12];
 	JPanel[] td=new JPanel[12];
 	
@@ -25,8 +24,6 @@ implements MouseListener,ActionListener
 	DefaultTableModel model;
 	TableColumn column;
 	
-	int curpage=1;
-	int totalpage=0;
 	
 	// 데이터베이스 연동 => MovieDAO 
 	JLabel titleLa=new JLabel("무비 차트",JLabel.CENTER);
@@ -42,9 +39,6 @@ implements MouseListener,ActionListener
     	pan.setBounds(20,15,530,550);
     	add(pan);
     	
-    	JPanel p=new JPanel();
-    	p.add(la); 
-    	add("South",p);
     	
     	String[] col={"순위","제목"};
     	Object[][] row=new Object[0][2];
@@ -63,6 +57,7 @@ implements MouseListener,ActionListener
     	};
     	
     	table=new JTable(model);
+    	table.getTableHeader().setReorderingAllowed(false);
     	table.setRowHeight(31);
     	JScrollPane js=new JScrollPane(table);
     	for(int i=0;i<col.length;i++)
@@ -93,39 +88,60 @@ implements MouseListener,ActionListener
     	pan.validate();// 재배치
     }
     // 이미지 출력 
-    public void print()
-    {
-    	// 총페이지 읽기 
-    	totalpage=dao.MovieTotalPage();
-    	List<MovieVO> list=dao.MovieListData(curpage);
-    	for(int i=0;i<list.size();i++)
-    	{
+    public void print(){
+    	List<MovieVO> list=dao.MovieListData(1);
+    	for(int i=0;i<list.size();i++){
     		MovieVO vo=list.get(i);
-    		try
-    		{
+    		try{
     			URL url=new URL(vo.getM_post());
     			Image image=ImageChange.getImage(new ImageIcon(url), 125, 160);
     			imgs[i]=new JLabel(new ImageIcon(image));
+    			imgs[i].setToolTipText(vo.getM_title()+" |"+vo.getM_no());
+    			Cursor c=imgs[i].getCursor();
+    			imgs[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     			JLabel label=new JLabel(String.valueOf(i+1), JLabel.CENTER);
     			td[i]=new JPanel(null);
     			imgs[i].setBounds(td[i].getX(), td[i].getY(), 125, 175);
     			label.setOpaque(true);
     			
-    			
-    			
     			if(i<3) {
-    				label.setBounds(td[i].getX(), td[i].getY(), 30, 30);
+    				label.setBounds(td[i].getX(), td[i].getY()+145, 30, 30);
     				label.setBackground(Color.red);
         			label.setFont(new Font("Ariel",Font.BOLD,16));
         			label.setForeground(Color.white);
     			}else {
-    				label.setBounds(td[i].getX(), td[i].getY(), 26, 26);
+    				label.setBounds(td[i].getX(), td[i].getY()+149, 26, 26);
     				label.setBackground(new Color(45,45,45));
         			label.setFont(new Font("Ariel",Font.PLAIN,14));
         			label.setForeground(Color.white);
     			}
     			
+//    			관람가
+    			String grade=vo.getGrade();
+    			JLabel g=new JLabel("", JLabel.CENTER);
+    			g.setOpaque(true);
+    			g.setBounds(td[i].getX()+100, td[i].getY()+5, 20, 20);
+    			g.setFont(new Font("Ariel",Font.BOLD,10));
+    			g.setForeground(Color.white);
+    			
+    			if(grade.contains("전체")) {
+    				grade="ALL";
+    				g.setBackground(new Color(33,159,40));
+    			}else if(grade.contains("12")) {
+    				grade="12";
+    				g.setBackground(new Color(252,207,7));
+    			}else if(grade.contains("15")) {
+    				grade="15";
+    				g.setBackground(new Color(242,122,2));
+    			}else if(grade.contains("청소년")) {
+    				grade="19";
+    				g.setBackground(new Color(223,1,1));
+    			}
+
+				g.setText(grade);
+    			
     			td[i].add(label);
+    			td[i].add(g);
     			td[i].add(imgs[i]);
     			pan.add(td[i]);
     			// 이벤트 등록 
@@ -157,6 +173,18 @@ implements MouseListener,ActionListener
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		for(int i=0;i<imgs.length;i++) //썸네일 클릭 시 상세보기 이벤트
+		{
+			if(e.getSource()==imgs[i])
+			{
+				String mno=imgs[i].getToolTipText();
+				mno=mno.substring(mno.lastIndexOf("|")+1);
+				MovieVO vo=dao.MovieDetailData(Integer.parseInt(mno));
+				cp.mdp.detailPrint(1, vo);
+				cp.card.show(cp, "DETAIL");
+				
+			}
+		}
 		
 	}
 	@Override

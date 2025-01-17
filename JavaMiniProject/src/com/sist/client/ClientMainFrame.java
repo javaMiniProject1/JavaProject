@@ -20,7 +20,7 @@ import java.net.*;
  *   
  */
 public class ClientMainFrame extends JFrame
-implements ActionListener,Runnable,KeyListener
+implements ActionListener,Runnable,KeyListener, MouseListener
 {
 	/// 네트워크 통신 
 	Socket s;
@@ -30,6 +30,7 @@ implements ActionListener,Runnable,KeyListener
 	MenuForm mf=new MenuForm(); // 포함 클래스 => 있는 그대로 사용
     ControlPanel cp=new ControlPanel();
     Login login=new Login();
+    int selectRow = -1;
 	// 배치 
     // 데이터베이스 
     MemberDAO mDao=MemberDAO.newInstance();
@@ -41,6 +42,7 @@ implements ActionListener,Runnable,KeyListener
 		cp.setBounds(10, 75, 820, 570);
 		add(cp);
 		setSize(850,700);
+		setLocationRelativeTo(null);
 		
 		// 등록 
 		// 로그인 
@@ -54,8 +56,14 @@ implements ActionListener,Runnable,KeyListener
 		mf.b5.addActionListener(this);
 		mf.b2.addActionListener(this);//전체 영화
 		mf.b3.addActionListener(this);//영화 검색
+		
+		
 		cp.cp.inputChatBtn.addActionListener(this); // 채팅 입력 버튼
 		cp.cp.tf.addActionListener(this); // 채팅 입력창
+		
+		cp.cp.table.addMouseListener(this);
+		cp.cp.b2.addActionListener(this); // 정보보기
+		cp.cp.b1.addActionListener(this); // 쪽지보내기
 		
 		addWindowListener(new WindowAdapter() {
 
@@ -225,6 +233,20 @@ implements ActionListener,Runnable,KeyListener
 			cp.cp.tf.setText("");
 			cp.cp.tf.requestFocus();
 		}
+		else if (e.getSource() == cp.cp.b2) {
+			if (selectRow == -1) {
+				JOptionPane.showMessageDialog(this, "정보 볼 대상을 선택하세요");
+				return;
+			}
+			String id = cp.cp.model.getValueAt(selectRow, 0).toString();
+			MemberVO vo = mDao.getMemberInfo(id);
+			
+			String info = "아이디 : " + vo.getId() + "\n"
+					+ "이름 : " + vo.getName() + "\n"
+					+ "닉네임 : " + vo.getNickname() + "\n"
+					+ "성별 : " + vo.getSex();
+			JOptionPane.showMessageDialog(this, info);
+		}
 	}
 	public void connection(MemberVO vo)
 	{
@@ -262,6 +284,42 @@ implements ActionListener,Runnable,KeyListener
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == cp.cp.table) {
+			selectRow = cp.cp.table.getSelectedRow();
+			String myId = getTitle();
+			String id = cp.cp.model.getValueAt(selectRow, 0).toString();
+			if (myId.equals(id)) {
+				cp.cp.b1.setEnabled(false);
+				cp.cp.b2.setEnabled(false);
+			} else {
+				cp.cp.b1.setEnabled(true);
+				cp.cp.b2.setEnabled(true);	
+			}
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

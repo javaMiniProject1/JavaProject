@@ -79,7 +79,20 @@ implements MouseListener,ActionListener
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		for(int i=0;i<imgs.length;i++)
+		{
+			if(e.getSource()==imgs[i])
+			{
+				if(e.getClickCount()==2)
+				{
+					String mno=imgs[i].getToolTipText();
+					mno=mno.substring(mno.lastIndexOf("^")+1);
+					MovieVO vo=dao.MovieDetailData(Integer.parseInt(mno));
+					cp.mdp.detailPrint(2, vo);
+					cp.card.show(cp, "DETAIL");
+				}
+			}
+		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

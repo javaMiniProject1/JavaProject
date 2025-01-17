@@ -110,7 +110,10 @@ public class MovieDAO {
 			   // 1. 연결 
 			   getConnection();
 			   // 2. SQL문장 제작 
-			   String sql = "SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade FROM movie WHERE m_no BETWEEN ? AND ?";
+			   String sql = "SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade,num "
+			   		+ "FROM (SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade,rownum AS num "
+			   		+ "FROM (SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade "
+			   		+ "FROM movie ORDER BY m_no)) WHERE num BETWEEN ? AND ?";
 			   // 3. SQL문장 오라클로 전송 
 			   ps=conn.prepareStatement(sql);
 			   // 4. ?에 데이터값을 채운다 
@@ -190,8 +193,8 @@ public class MovieDAO {
 			   getConnection();
 			   String sql="select num,m_title "
 			   		+ "from (select rownum as num,m_title "
-			   		+ "from (select /*+INDEX ASC(movie m_mno_pk)*/m_title "
-			   		+ "from movie)) "
+			   		+ "from (select m_title "
+			   		+ "from movie order by m_no)) "
 			   		+ "where num<=15";
 			   ps=conn.prepareStatement(sql);
 			   ResultSet rs=ps.executeQuery();
@@ -255,5 +258,38 @@ public class MovieDAO {
 		   }
 		   return list;
 	   }
-	   
+	   public MovieVO MovieDetailData(int m_no)
+	   {
+		   MovieVO vo=new MovieVO();
+		   try
+		   {
+			   getConnection();
+			   String sql="SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade FROM movie WHERE m_no ="+m_no;
+			   ps=conn.prepareStatement(sql);
+			   ResultSet rs=ps.executeQuery();
+			   rs.next();
+				vo.setM_no(rs.getInt(1));
+				vo.setM_title(rs.getString(2));
+				vo.setM_post(rs.getString(3));
+				vo.setM_eng_title(rs.getString(4));
+				vo.setNation(rs.getString(5));
+				vo.setGenre(rs.getString(6));
+				vo.setRuntime(rs.getString(7));
+				vo.setReg_date(rs.getDate(8));
+				vo.setTotal_audi(rs.getInt(9));
+				vo.setDir(rs.getString(10));
+				vo.setAct(rs.getString(11));
+				vo.setRaiting(rs.getDouble(12));
+				vo.setStory(rs.getString(13));
+				vo.setGrade(rs.getString(14));
+		   }catch(Exception ex)
+		   {
+			   ex.printStackTrace();
+		   }
+		   finally
+		   {
+			   disConnection();
+		   }
+		   return vo;
+	   }
 }
