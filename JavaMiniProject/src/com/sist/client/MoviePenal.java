@@ -88,7 +88,7 @@ implements MouseListener,ActionListener
 					String mno=imgs[i].getToolTipText();
 					mno=mno.substring(mno.lastIndexOf("^")+1);
 					MovieVO vo=dao.MovieDetailData(Integer.parseInt(mno));
-//					cp.mdp.detailPrint(2, vo);
+					cp.mdp.detailPrint(2, vo);
 					cp.card.show(cp, "DETAIL");
 				}
 			}

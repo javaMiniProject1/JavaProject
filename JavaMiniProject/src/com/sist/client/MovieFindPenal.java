@@ -11,7 +11,7 @@ import com.sist.dao.*;
 import java.util.List;
 // => 서버 연동 (X) 
 public class MovieFindPenal extends JPanel
-implements ActionListener
+implements ActionListener,MouseListener
 {
      ControlPanel cp; // 상세보기 
      JTable table; // 모양관리 
@@ -88,6 +88,7 @@ implements ActionListener
     	 
     	 b.addActionListener(this);
     	 tf.addActionListener(this);
+    	 table.addMouseListener(this);
     	 
      }
 	@Override
@@ -134,5 +135,42 @@ implements ActionListener
 		  }catch(Exception ex){}
 		}
 	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==table)
+		{
+			if(e.getClickCount()==2)
+			{
+				int row=table.getSelectedRow();
+				String fno=
+					model.getValueAt(row, 0).toString();
+				MovieVO vo=dao.MovieDetailData(Integer.parseInt(fno));
+				cp.mdp.detailPrint(3, vo);
+				cp.card.show(cp, "DETAIL");
+			}
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
      
 }

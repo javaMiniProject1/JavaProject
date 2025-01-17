@@ -55,6 +55,8 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		mf.b5.addActionListener(this);
 		mf.b2.addActionListener(this);//전체 영화
 		mf.b3.addActionListener(this);//영화 검색
+		
+		
 		cp.cp.inputChatBtn.addActionListener(this); // 채팅 입력 버튼
 		cp.cp.tf.addActionListener(this); // 채팅 입력창
 		
