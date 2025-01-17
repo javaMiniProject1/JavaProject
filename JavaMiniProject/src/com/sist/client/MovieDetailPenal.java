@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.net.URI;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 import javax.swing.*;
 
@@ -15,8 +16,8 @@ public class MovieDetailPenal extends JPanel
 implements ActionListener
 {
 	 JLabel poster;
-     JLabel titleLa,nationLa,genreLa,runtimeLa,reg_dateLa,total_auditLa,dirLa,actLa,raiting_grade_La;
-     JLabel title,nation,genre,runtime,reg_date,total_audit,dir,act,raiting_grade;
+     JLabel titleLa,nationLa,genreLa,runtimeLa,reg_dateLa,total_auditLa,dirLa,actLa,raitingLa,gradeLa;
+     JLabel title,nation,genre,runtime,reg_date,total_audit,dir,act,raiting,grade;
      JLabel[] images=new JLabel[6];
      JTextPane storyTa;
      JButton b1,b2,b3;
@@ -89,12 +90,19 @@ implements ActionListener
     	 act.setBounds(415, 265, 250, 30);
     	 add(actLa);add(act);
     	 
-    	 raiting_grade_La=new JLabel("등급 , 평점");
-    	 raiting_grade=new JLabel();
+    	 raitingLa=new JLabel("별점");
+    	 raiting=new JLabel();
     	 
-    	 raiting_grade_La.setBounds(330, 300, 80, 30);
-    	 raiting_grade.setBounds(415, 300, 350, 90);
-    	 add(raiting_grade_La);add(raiting_grade);
+    	 raitingLa.setBounds(330, 300, 80, 30);
+    	 raiting.setBounds(415, 300, 250, 30);
+    	 add(raitingLa);add(raiting);
+    	 
+    	 gradeLa=new JLabel("등급");
+    	 grade=new JLabel();
+    	 
+    	 gradeLa.setBounds(330, 335, 80, 30);
+    	 grade.setBounds(415, 335, 250, 30);
+    	 add(gradeLa);add(grade);
     	 
     	 storyTa=new JTextPane();
     	 JScrollPane js=new JScrollPane(storyTa);
@@ -129,10 +137,12 @@ implements ActionListener
     		 runtime.setText(vo.getRuntime());
     		 genre.setText(vo.getGenre());
     		 reg_date.setText(vo.getReg_date().toString());
-    		 total_audit.setText(vo.getTotal_audi()+"");
+    		 DecimalFormat df = new DecimalFormat("#,###,###");
+    		 total_audit.setText(df.format(vo.getTotal_audi()));
     		 dir.setText(vo.getDir());
     		 act.setText(vo.getAct());
-    		 raiting_grade.setText("평점 : "+ vo.getRaiting()+" 시청 등급 "+vo.getGrade());
+    		 raiting.setText(vo.getRaiting().toString());
+    		 grade.setText(vo.getGrade());
     		 storyTa.setText(vo.getStory());
     	 }catch(Exception ex) {}
     	 
