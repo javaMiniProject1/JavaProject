@@ -221,7 +221,7 @@ public class MovieDAO {
 		   {
 			   getConnection();
 			   String sql="SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade FROM movie"
-			   		+ " WHERE m_title LIKE '%'||?||'%'";
+			   		+ " WHERE m_title LIKE '%'||?||'%' ORDER BY m_no";
 			   ps=conn.prepareStatement(sql);
 			   ps.setString(1, title);
 			   ResultSet rs=ps.executeQuery();

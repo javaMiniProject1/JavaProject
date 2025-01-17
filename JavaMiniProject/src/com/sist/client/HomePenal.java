@@ -19,6 +19,7 @@ implements MouseListener,ActionListener
 	// 이미지 출력 
 	JLabel la=new JLabel("0 page / 0 pages");
 	JLabel[] imgs=new JLabel[12];
+	JPanel[] td=new JPanel[12];
 	
 	JTable table;
 	DefaultTableModel model;
@@ -33,28 +34,21 @@ implements MouseListener,ActionListener
     public HomePenal(ControlPanel cp)
     {
     	// JPenal => FlowLayout - - - 
-//    	setLayout(new BorderLayout());
     	setLayout(null);
     	
     	this.cp=cp;
     	pan.setLayout(new GridLayout(3,4,3,3));
-    	
-//    	add("Center",pan);
     	
     	pan.setBounds(20,15,530,550);
     	add(pan);
     	
     	JPanel p=new JPanel();
     	p.add(la); 
-    	// add => 코딩 순서로 배치
     	add("South",p);
-//    	print();
-    	
     	
     	String[] col={"순위","제목"};
     	Object[][] row=new Object[0][2];
     	
-//    	model=new DefaultTableModel(row,col);
     	model=new DefaultTableModel(row,col){
     		@Override
 			public boolean isCellEditable(int row, int column) {
@@ -110,13 +104,33 @@ implements MouseListener,ActionListener
     		try
     		{
     			URL url=new URL(vo.getM_post());
-    			Image image=
-    				ImageChange.getImage(new ImageIcon(url), 125, 160);
+    			Image image=ImageChange.getImage(new ImageIcon(url), 125, 160);
     			imgs[i]=new JLabel(new ImageIcon(image));
-    			imgs[i].setToolTipText(vo.getM_title()+"^"+vo.getM_no());
-    			pan.add(imgs[i]);
+    			JLabel label=new JLabel(String.valueOf(i+1), JLabel.CENTER);
+    			td[i]=new JPanel(null);
+    			imgs[i].setBounds(td[i].getX(), td[i].getY(), 125, 175);
+    			label.setOpaque(true);
+    			
+    			
+    			
+    			if(i<3) {
+    				label.setBounds(td[i].getX(), td[i].getY(), 30, 30);
+    				label.setBackground(Color.red);
+        			label.setFont(new Font("Ariel",Font.BOLD,16));
+        			label.setForeground(Color.white);
+    			}else {
+    				label.setBounds(td[i].getX(), td[i].getY(), 26, 26);
+    				label.setBackground(new Color(45,45,45));
+        			label.setFont(new Font("Ariel",Font.PLAIN,14));
+        			label.setForeground(Color.white);
+    			}
+    			
+    			td[i].add(label);
+    			td[i].add(imgs[i]);
+    			pan.add(td[i]);
     			// 이벤트 등록 
     			imgs[i].addMouseListener(this);
+    			td[i].addMouseListener(this);
     		}catch(Exception ex) {}
     	}
 //    	la.setText(curpage+" page / "+totalpage+" pages");
