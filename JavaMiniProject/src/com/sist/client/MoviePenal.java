@@ -66,7 +66,7 @@ implements MouseListener,ActionListener
     		{
     			URL url=new URL(vo.getM_post());
     			Image image=
-    				ImageChange.getImage(new ImageIcon(url), 200, 180);
+    				ImageChange.getImage(new ImageIcon(url), 120, 180);
     			imgs[i]=new JLabel(new ImageIcon(image));
     			imgs[i].setToolTipText(vo.getM_title()+"^"+vo.getM_no());
     			pan.add(imgs[i]);
