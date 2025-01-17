@@ -213,4 +213,47 @@ public class MovieDAO {
 		   }
 		   return list;
 	   }
+	   public List<MovieVO> MovieFindData(String title)
+	   {	
+		   List<MovieVO> list=
+				   new ArrayList<MovieVO>();
+		   try
+		   {
+			   getConnection();
+			   String sql="SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade FROM movie"
+			   		+ " WHERE m_title LIKE '%'||?||'%' ORDER BY m_no";
+			   ps=conn.prepareStatement(sql);
+			   ps.setString(1, title);
+			   ResultSet rs=ps.executeQuery();
+			   while(rs.next())
+			   {
+				   MovieVO vo = new MovieVO();
+					vo.setM_no(rs.getInt(1));
+					vo.setM_title(rs.getString(2));
+					vo.setM_post(rs.getString(3));
+					vo.setM_eng_title(rs.getString(4));
+					vo.setNation(rs.getString(5));
+					vo.setGenre(rs.getString(6));
+					vo.setRuntime(rs.getString(7));
+					vo.setReg_date(rs.getDate(8));
+					vo.setTotal_audi(rs.getInt(9));
+					vo.setDir(rs.getString(10));
+					vo.setAct(rs.getString(11));
+					vo.setRaiting(rs.getDouble(12));
+					vo.setStory(rs.getString(13));
+					vo.setGrade(rs.getString(14));
+					list.add(vo);
+			   }
+			   rs.close();
+		   }catch(Exception ex)
+		   {
+			   ex.printStackTrace();
+		   }
+		   finally
+		   {
+			   disConnection();
+		   }
+		   return list;
+	   }
+	   
 }
