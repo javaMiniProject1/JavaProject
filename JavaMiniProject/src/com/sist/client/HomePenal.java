@@ -97,6 +97,8 @@ implements MouseListener,ActionListener
     			Image image=ImageChange.getImage(new ImageIcon(url), 125, 160);
     			imgs[i]=new JLabel(new ImageIcon(image));
     			imgs[i].setToolTipText(vo.getM_title()+" |"+vo.getM_no());
+    			Cursor c=imgs[i].getCursor();
+    			imgs[i].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     			JLabel label=new JLabel(String.valueOf(i+1), JLabel.CENTER);
     			td[i]=new JPanel(null);
     			imgs[i].setBounds(td[i].getX(), td[i].getY(), 125, 175);
@@ -171,20 +173,19 @@ implements MouseListener,ActionListener
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		for(int i=0;i<imgs.length;i++)
+		for(int i=0;i<imgs.length;i++) //썸네일 클릭 시 상세보기 이벤트
 		{
 			if(e.getSource()==imgs[i])
 			{
-				if(e.getClickCount()==2)
-				{
-					String mno=imgs[i].getToolTipText();
-					mno=mno.substring(mno.lastIndexOf("|")+1);
-					MovieVO vo=dao.MovieDetailData(Integer.parseInt(mno));
-					cp.mdp.detailPrint(1, vo);
-					cp.card.show(cp, "DETAIL");
-				}
+				String mno=imgs[i].getToolTipText();
+				mno=mno.substring(mno.lastIndexOf("|")+1);
+				MovieVO vo=dao.MovieDetailData(Integer.parseInt(mno));
+				cp.mdp.detailPrint(1, vo);
+				cp.card.show(cp, "DETAIL");
+				
 			}
 		}
+		
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
