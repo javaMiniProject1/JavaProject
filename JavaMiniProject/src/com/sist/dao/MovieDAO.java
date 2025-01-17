@@ -110,7 +110,10 @@ public class MovieDAO {
 			   // 1. 연결 
 			   getConnection();
 			   // 2. SQL문장 제작 
-			   String sql = "SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade FROM movie WHERE m_no BETWEEN ? AND ?";
+			   String sql = "SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade,num "
+			   		+ "FROM (SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade,rownum AS num "
+			   		+ "FROM (SELECT m_no,m_title,m_post,m_eng_title,nation,genre,runtime,reg_date,total_audi,dir,act,rating,story,grade "
+			   		+ "FROM movie ORDER BY m_no)) WHERE num BETWEEN ? AND ?";
 			   // 3. SQL문장 오라클로 전송 
 			   ps=conn.prepareStatement(sql);
 			   // 4. ?에 데이터값을 채운다 
