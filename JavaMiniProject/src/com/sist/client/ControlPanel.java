@@ -10,10 +10,13 @@ import javax.swing.*;
 public class ControlPanel extends JPanel{
     HomePenal hp;
     ChatPenal cp;
-    BoardMainPanel bp;
     MoviePenal mp;
     MovieFindPenal mfp;
     MovieDetailPenal mdp;
+	BoardList bList;
+	BoardInsert bInsert;
+	BoardDetail bDetail;
+	BoardUpdate bUpdate;
     CardLayout card=new CardLayout();
     public ControlPanel()
     {
@@ -22,14 +25,21 @@ public class ControlPanel extends JPanel{
     	add("HOME",hp);
     	cp=new ChatPenal(this);
     	add("CHAT",cp);
-    	bp=new BoardMainPanel(this);
-    	add("BOARD",bp);
     	mp=new MoviePenal(this);
     	add("MOVIE",mp);
     	mfp=new MovieFindPenal(this);
     	add("MFP",mfp);
     	mdp=new MovieDetailPenal(this);
     	add("DETAIL",mdp);
+    	// 게시판
+    	bList=new BoardList(this);
+    	add("BLIST",bList);
+    	bInsert=new BoardInsert(this);
+    	add("BINSERT",bInsert);
+    	bDetail=new BoardDetail(this);
+    	add("BDETAIL",bDetail);
+    	bUpdate=new BoardUpdate(this);
+    	add("BUPDATE",bUpdate);
     }
     
 }
