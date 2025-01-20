@@ -6,17 +6,17 @@ import java.awt.event.*;
 import com.sist.dao.*;
 import com.sist.vo.*;
 // 사용자 입력 => 오라클에 저장 => 화면 이동
-public class BoardInsert extends JPanel implements ActionListener{
-    JLabel titleLa,nameLa,subLa,contLa,pwdLa;
+public class BoardReply extends JPanel{
+    JLabel titleLa,nameLa,subLa,contLa,pwdLa,noLa;
     JTextField nameTf,subTf;
     JPasswordField pwdPf;
     JTextArea ta;
     JButton b1,b2;
     ControlPanel cp;
-    public BoardInsert(ControlPanel cp)
+    public BoardReply(ControlPanel cp)
     {
     	this.cp=cp;
-    	titleLa=new JLabel("글쓰기",JLabel.CENTER);// <table>
+    	titleLa=new JLabel("답변하기",JLabel.CENTER);// <table>
     	titleLa.setFont(new Font("맑은 고딕",Font.BOLD,30)); //<h3></h3>
     	setLayout(null);
     	titleLa.setBounds(10, 15, 830, 50);
@@ -27,6 +27,11 @@ public class BoardInsert extends JPanel implements ActionListener{
     	nameLa.setBounds(100, 70, 80, 30);
     	nameTf.setBounds(185, 70, 150, 30);
     	add(nameLa);add(nameTf);
+    	
+    	noLa=new JLabel();
+    	noLa.setBounds(340, 70, 50, 30);
+    	add(noLa);
+    	noLa.setVisible(false);
     	
     	subLa=new JLabel("제목",JLabel.CENTER);
     	subTf=new JTextField();
@@ -50,7 +55,7 @@ public class BoardInsert extends JPanel implements ActionListener{
     	pwdPf.setBounds(185, 395, 150, 30);
     	add(pwdLa);add(pwdPf);
     	
-    	b1=new JButton("글쓰기");
+    	b1=new JButton("답변");
     	b2=new JButton("취소");
     	
     	JPanel p=new JPanel();
@@ -58,55 +63,5 @@ public class BoardInsert extends JPanel implements ActionListener{
     	p.setBounds(100, 435, 535, 35);
     	add(p);
     	
-    	b1.addActionListener(this);
-    	b2.addActionListener(this);
     }
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getSource()==b2)
-		{
-			cp.card.show(cp, "BLIST");// 목록으로 이동
-		}
-		else if(e.getSource()==b1)
-		{
-			String name=nameTf.getText();
-			// 데이터베이스에 NOT NULL을 설정한 경우 => 반드시 입력 유도
-			if(name.trim().length()<1)
-			{
-				nameTf.requestFocus();
-				return;
-			}
-			String subject=subTf.getText();
-			if(subject.trim().length()<1)
-			{
-				subTf.requestFocus();
-				return;
-			}
-			String content=ta.getText();
-			if(content.trim().length()<1)
-			{
-				ta.requestFocus();
-				return;
-			}
-			String pwd=String.valueOf(pwdPf);
-			if(pwd.trim().length()<1)
-			{
-				pwdPf.requestFocus();
-				return;
-			}
-			ReplyBoardDAO dao=ReplyBoardDAO.newInstance();
-			ReplyBoardVO vo=new ReplyBoardVO();
-			vo.setName(name);
-			vo.setSubject(subject);
-			vo.setContent(content);
-			vo.setPwd(content);
-			
-			dao.boardInsert(vo);
-			cp.bList.curpage=1;
-			cp.card.show(cp, "BLIST");
-			cp.bList.print();
-		}
-		
-	}
 }

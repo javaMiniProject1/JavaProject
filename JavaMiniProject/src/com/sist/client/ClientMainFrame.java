@@ -56,6 +56,7 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		mf.b5.addActionListener(this);
 		mf.b2.addActionListener(this);//전체 영화
 		mf.b3.addActionListener(this);//영화 검색
+		mf.b5.addActionListener(this);// 커뮤니티
 		
 		
 		cp.cp.inputChatBtn.addActionListener(this); // 채팅 입력 버튼
@@ -206,10 +207,6 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		{
 			cp.card.show(cp, "HOME");
 		}
-		else if(e.getSource()==mf.b5)
-		{
-			cp.card.show(cp, "BOARD");
-		}
 		else if(e.getSource()==mf.b2)
 		{
 			cp.card.show(cp, "MOVIE");
@@ -217,6 +214,14 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		else if(e.getSource()==mf.b3)
 		{
 			cp.card.show(cp, "MFP");
+		}
+		else if(e.getSource()==mf.b7)
+		{
+			cp.card.show(cp, "DETAIL");
+		}
+		else if(e.getSource()==mf.b5)
+		{
+			cp.card.show(cp, "BLIST");
 		}
 		else if (e.getSource() == cp.cp.tf || e.getSource() == cp.cp.inputChatBtn) {
 			String msg = cp.cp.tf.getText();
