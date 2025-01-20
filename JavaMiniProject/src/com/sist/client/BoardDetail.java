@@ -27,51 +27,51 @@ implements ActionListener
     	 add(titleLa);
     	 
     	 noLa=new JLabel("번호",JLabel.CENTER);
-    	 noLa.setBounds(100, 75 , 80, 30);
+    	 noLa.setBounds(50, 75 , 110, 30);
     	 noLa.setBackground(Color.GREEN);
      	 noLa.setOpaque(true);
     	 no=new JLabel("",JLabel.CENTER);
-    	 no.setBounds(185, 75, 120, 30);
+    	 no.setBounds(165, 75, 250, 30);
     	 add(noLa);add(no);
     	 
     	 dayLa=new JLabel("작성일",JLabel.CENTER);
-    	 dayLa.setBounds(310, 75 , 80, 30);
+    	 dayLa.setBounds(420, 75 , 110, 30);
     	 dayLa.setBackground(Color.GREEN);
      	 dayLa.setOpaque(true);
     	 day=new JLabel("",JLabel.CENTER);
-    	 day.setBounds(395, 75, 200, 30);
+    	 day.setBounds(535, 75, 300, 30);
     	 add(dayLa);add(day);
     	 
     	 nameLa=new JLabel("이름",JLabel.CENTER);
-    	 nameLa.setBounds(100, 110 , 80, 30);
+    	 nameLa.setBounds(50, 110, 110, 30);
     	 nameLa.setBackground(Color.GREEN);
      	 nameLa.setOpaque(true);
     	 name=new JLabel("",JLabel.CENTER);
-    	 name.setBounds(185, 110, 120, 30);
+    	 name.setBounds(165, 110, 250, 30);
     	 add(nameLa);add(name);
     	 
     	 hitLa=new JLabel("조회수",JLabel.CENTER);
-    	 hitLa.setBounds(310, 110 , 80, 30);
+    	 hitLa.setBounds(420, 110, 110, 30);
     	 hitLa.setBackground(Color.GREEN);
      	 hitLa.setOpaque(true);
      	 // JLabel => 투명 모드 
      	 // => 불투명 모드 
      	 // opacity 
     	 hit=new JLabel("",JLabel.CENTER);
-    	 hit.setBounds(395, 110, 200, 30);
+    	 hit.setBounds(535, 110, 300, 30);
     	 add(hitLa);add(hit);
     	 
     	 subLa=new JLabel("제목",JLabel.CENTER);
-    	 subLa.setBounds(100, 145 , 80, 30);
+    	 subLa.setBounds(50, 145 , 110, 30);
     	 subLa.setBackground(Color.GREEN);
      	 subLa.setOpaque(true);
     	 sub=new JLabel("");
-    	 sub.setBounds(185, 145, 400, 30);
+    	 sub.setBounds(165, 145, 580, 30);
     	 add(subLa);add(sub);
     	 
     	 ta=new JTextArea();
     	 ta.setEditable(false); // 비활성화 
-    	 ta.setBounds(100, 180, 485, 250);
+    	 ta.setBounds(50, 180, 705, 320);
     	 add(ta);
     	 
     	 JPanel p=new JPanel();
@@ -80,7 +80,7 @@ implements ActionListener
     	 b3=new JButton("목록");
     	 b4=new JButton("답변");
     	 p.add(b4);p.add(b1);p.add(b2);p.add(b3);
-    	 p.setBounds(100, 440, 485, 35);
+    	 p.setBounds(170, 510, 485, 35);
     	 add(p);
     	 
     	 b1.addActionListener(this);//수정 

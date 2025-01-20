@@ -74,11 +74,11 @@ public class BoardList extends JPanel implements ActionListener,MouseListener{
     	
     	// 배치 
     	setLayout(null);
-    	titleLa.setBounds(10, 15, 830, 50);
+    	titleLa.setBounds(5, 15, 830, 50);
     	add(titleLa);
-    	inBtn.setBounds(100, 70, 100, 30);
+    	inBtn.setBounds(40, 70, 100, 30);
     	add(inBtn);
-    	js.setBounds(100, 110, 600, 330);
+    	js.setBounds(40, 110, 750, 380);
     	add(js);
     	
     	JPanel p=new JPanel();
@@ -86,7 +86,7 @@ public class BoardList extends JPanel implements ActionListener,MouseListener{
     	p.add(pageLa);
     	p.add(nextBtn);
     	
-    	p.setBounds(100, 450, 600, 35);
+    	p.setBounds(100, 500, 600, 35);
     	add(p);
     	
     	print();

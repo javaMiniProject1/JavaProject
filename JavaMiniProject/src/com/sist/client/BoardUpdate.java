@@ -5,6 +5,9 @@ import javax.swing.*;
 import java.awt.event.*;
 import com.sist.vo.*;
 import com.sist.dao.*;
+/*
+ * 
+ */
 public class BoardUpdate extends JPanel
 implements ActionListener
 {
@@ -31,30 +34,30 @@ implements ActionListener
     	
     	nameLa=new JLabel("이름",JLabel.CENTER);
     	nameTf=new JTextField();
-    	nameLa.setBounds(100, 70, 80, 30);
-    	nameTf.setBounds(185, 70, 150, 30);
+    	nameLa.setBounds(50, 70, 70, 30);
+    	nameTf.setBounds(125, 70, 150, 30);
     	add(nameLa);add(nameTf);
     	
     	subLa=new JLabel("제목",JLabel.CENTER);
     	subTf=new JTextField();
-    	subLa.setBounds(100, 105, 80, 30);
-    	subTf.setBounds(185, 105, 450, 30);
+    	subLa.setBounds(50, 105, 70, 30);
+    	subTf.setBounds(125, 105, 450, 30);
     	add(subLa);add(subTf);
     	
     	
     	contLa=new JLabel("내용",JLabel.CENTER);
     	ta=new JTextArea();
     	JScrollPane js=new JScrollPane(ta);
-    	contLa.setBounds(100, 140, 80, 30);
-    	js.setBounds(185, 140, 450, 250);
+    	contLa.setBounds(50, 140, 70, 30);
+    	js.setBounds(125, 140, 600, 330);
     	add(contLa);add(js);
  
     	pwdLa=new JLabel("비밀번호",JLabel.CENTER);
     	pwdPf=new JPasswordField();
     	//             Top  Right Bottom Left ==> CSS
-    	pwdLa.setBounds(100, 395, 80, 30);
+    	pwdLa.setBounds(50, 475, 70, 30);
     	//             x  y width heigth
-    	pwdPf.setBounds(185, 395, 150, 30);
+    	pwdPf.setBounds(125, 475, 150, 30);
     	add(pwdLa);add(pwdPf);
     	
     	b1=new JButton("수정");
@@ -62,11 +65,11 @@ implements ActionListener
     	
     	JPanel p=new JPanel();
     	p.add(b1);p.add(b2);
-    	p.setBounds(100, 435, 535, 35);
+    	p.setBounds(120, 510, 545, 35);
     	add(p);
     	
-    	b1.addActionListener(this);// 수정 
-    	b2.addActionListener(this);// 취소
+    	b1.addActionListener(this);
+    	b2.addActionListener(this);
     	
     }
     // 값을 채운다 => 수정 (이전에 입력한 값을 가지고 온다)

@@ -24,30 +24,30 @@ public class BoardInsert extends JPanel implements ActionListener{
     	
     	nameLa=new JLabel("이름",JLabel.CENTER);
     	nameTf=new JTextField();
-    	nameLa.setBounds(100, 70, 80, 30);
-    	nameTf.setBounds(185, 70, 150, 30);
+    	nameLa.setBounds(50, 70, 70, 30);
+    	nameTf.setBounds(125, 70, 150, 30);
     	add(nameLa);add(nameTf);
     	
     	subLa=new JLabel("제목",JLabel.CENTER);
     	subTf=new JTextField();
-    	subLa.setBounds(100, 105, 80, 30);
-    	subTf.setBounds(185, 105, 450, 30);
+    	subLa.setBounds(50, 105, 70, 30);
+    	subTf.setBounds(125, 105, 450, 30);
     	add(subLa);add(subTf);
     	
     	
     	contLa=new JLabel("내용",JLabel.CENTER);
     	ta=new JTextArea();
     	JScrollPane js=new JScrollPane(ta);
-    	contLa.setBounds(100, 140, 80, 30);
-    	js.setBounds(185, 140, 450, 250);
+    	contLa.setBounds(50, 140, 70, 30);
+    	js.setBounds(125, 140, 600, 330);
     	add(contLa);add(js);
  
     	pwdLa=new JLabel("비밀번호",JLabel.CENTER);
     	pwdPf=new JPasswordField();
     	//             Top  Right Bottom Left ==> CSS
-    	pwdLa.setBounds(100, 395, 80, 30);
+    	pwdLa.setBounds(50, 475, 70, 30);
     	//             x  y width heigth
-    	pwdPf.setBounds(185, 395, 150, 30);
+    	pwdPf.setBounds(125, 475, 150, 30);
     	add(pwdLa);add(pwdPf);
     	
     	b1=new JButton("글쓰기");
@@ -55,7 +55,7 @@ public class BoardInsert extends JPanel implements ActionListener{
     	
     	JPanel p=new JPanel();
     	p.add(b1);p.add(b2);
-    	p.setBounds(100, 435, 535, 35);
+    	p.setBounds(120, 510, 545, 35);
     	add(p);
     	
     	b1.addActionListener(this);
@@ -74,24 +74,28 @@ public class BoardInsert extends JPanel implements ActionListener{
 			// 데이터베이스에 NOT NULL을 설정한 경우 => 반드시 입력 유도
 			if(name.trim().length()<1)
 			{
+				JOptionPane.showMessageDialog(this,"이름을 입력하세요");
 				nameTf.requestFocus();
 				return;
 			}
 			String subject=subTf.getText();
 			if(subject.trim().length()<1)
 			{
+				JOptionPane.showMessageDialog(this,"제목을 입력하세요");
 				subTf.requestFocus();
 				return;
 			}
 			String content=ta.getText();
 			if(content.trim().length()<1)
 			{
+				JOptionPane.showMessageDialog(this,"내용을 입력하세요");
 				ta.requestFocus();
 				return;
 			}
 			String pwd=String.valueOf(pwdPf);
 			if(pwd.trim().length()<1)
 			{
+				JOptionPane.showMessageDialog(this,"비밀번호를 입력하세요");
 				pwdPf.requestFocus();
 				return;
 			}
