@@ -56,6 +56,7 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		mf.b5.addActionListener(this);
 		mf.b2.addActionListener(this);//전체 영화
 		mf.b3.addActionListener(this);//영화 검색
+		mf.b5.addActionListener(this);// 커뮤니티
 		
 		
 		cp.cp.inputChatBtn.addActionListener(this); // 채팅 입력 버튼
@@ -159,44 +160,40 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		else if(e.getSource()==login.b1)
 		{
 			// 유효성 검사 
-			String id=login.tf.getText();
-			if(id.trim().length()<1)
-			{
-				JOptionPane.showMessageDialog(this,
-						"아이디를 입력하세요");
-				login.tf.requestFocus();
-				return;
-			}
-			String pwd=String.valueOf(login.pf.getPassword());
-			if(pwd.trim().length()<1)
-			{
-				JOptionPane.showMessageDialog(this,
-						"비밀번호를 입력하세요");
-				login.pf.requestFocus();
-				return;
-			}
-			// 로그인 검색 
-			MemberVO vo=mDao.isLogin(id, pwd);
-			if(vo.getMsg().equals("NOID"))
-			{
-				JOptionPane.showMessageDialog(this, 
-						"아이디가 존재하지 않습니다");
-				login.tf.setText("");
-				login.pf.setText("");
-				login.tf.requestFocus();
-			}
-			else if(vo.getMsg().equals("NOPWD"))
-			{
-				JOptionPane.showMessageDialog(this, 
-						"비밀번호가 틀립니다");
-				login.pf.setText("");
-				login.pf.requestFocus();
-			}
-			else
-			{
-				// 서버연결 park
-				connection(vo);
-			}
+				String id=login.tf.getText();
+				if(id.trim().length()<1)
+				{
+					login.msg.setText("  아이디를 입력하세요.");
+					login.tf.requestFocus();
+					return;
+				}
+				String pwd=String.valueOf(login.pf.getPassword());
+				if(pwd.trim().length()<1)
+				{
+					login.msg.setText("  비밀번호를 입력하세요.");
+					login.pf.requestFocus();
+					return;
+				}
+				// 로그인 검색 
+				MemberVO vo=mDao.isLogin(id, pwd);
+				if(vo.getMsg().equals("NOID"))
+				{
+					login.msg.setText("  존재하지 않는 아이디입니다.");
+					login.tf.setText("");
+					login.pf.setText("");
+					login.tf.requestFocus();
+				}
+				else if(vo.getMsg().equals("NOPWD"))
+				{
+					login.msg.setText("  비밀번호가 일치하지 않습니다.");
+					login.pf.setText("");
+					login.pf.requestFocus();
+				}
+				else
+				{
+					// 서버연결 park
+					connection(vo);
+				}
 		}
 		else if(e.getSource()==mf.b6)
 		{
@@ -206,10 +203,6 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		{
 			cp.card.show(cp, "HOME");
 		}
-		else if(e.getSource()==mf.b5)
-		{
-			cp.card.show(cp, "BOARD");
-		}
 		else if(e.getSource()==mf.b2)
 		{
 			cp.card.show(cp, "MOVIE");
@@ -217,6 +210,14 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		else if(e.getSource()==mf.b3)
 		{
 			cp.card.show(cp, "MFP");
+		}
+		else if(e.getSource()==mf.b7)
+		{
+			cp.card.show(cp, "DETAIL");
+		}
+		else if(e.getSource()==mf.b5)
+		{
+			cp.card.show(cp, "BLIST");
 		}
 		else if (e.getSource() == cp.cp.tf || e.getSource() == cp.cp.inputChatBtn) {
 			String msg = cp.cp.tf.getText();
