@@ -42,7 +42,7 @@ public class NewsPanel extends JPanel implements ActionListener, MouseListener{
 		pan.setPreferredSize(new Dimension(730,1200));
 		pane=new JScrollPane(pan);
 		pane.setPreferredSize(new Dimension(750,650));
-		pane.setBounds(10,55,730,650);
+		pane.setBounds(10,55,800,650);
 		add(pane);
 		
 		tf.addActionListener(this);
