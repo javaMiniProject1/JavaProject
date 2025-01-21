@@ -60,6 +60,7 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		mf.b2.addActionListener(this);//전체 영화
 		mf.b3.addActionListener(this);//영화 검색
 		mf.b5.addActionListener(this);// 커뮤니티
+		mf.b7.addActionListener(this);//실시간뉴스
 		
 		
 		cp.cp.inputChatBtn.addActionListener(this); // 채팅 입력 버튼
@@ -223,7 +224,7 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		}
 		else if(e.getSource()==mf.b7)
 		{
-			cp.card.show(cp, "DETAIL");
+			cp.card.show(cp, "NP");
 		}
 		else if(e.getSource()==mf.b5)
 		{
