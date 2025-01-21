@@ -143,7 +143,7 @@ public class Server implements Runnable{
 								  +id+"|"+name+"|"+sex);
 						  // 2. 입장메세지 전송 
 						  messageAll(Function.WAITCHAT+"|[알림]"
-								  +name+"님이 입장하셨습니다");
+								  +id+"님이 입장하셨습니다");
 						  // 3. waitVc에 저장 
 						  waitVc.add(this);
 						  // => 메인화면으로 이동 
