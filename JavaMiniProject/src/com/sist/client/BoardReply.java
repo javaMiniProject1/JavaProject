@@ -28,6 +28,11 @@ public class BoardReply extends JPanel implements ActionListener{
     	nameTf.setBounds(125, 70, 150, 30);
     	add(nameLa);add(nameTf);
     	
+    	noLa = new JLabel();
+		noLa.setBounds(340, 70, 50, 30);
+		add(noLa);
+		noLa.setVisible(false);
+		
     	subLa=new JLabel("제목",JLabel.CENTER);
     	subTf=new JTextField();
     	subLa.setBounds(50, 105, 70, 30);

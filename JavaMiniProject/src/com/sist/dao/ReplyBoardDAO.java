@@ -148,15 +148,14 @@ public class ReplyBoardDAO {
 					+ "WHERE no="+no;
 			ps=conn.prepareStatement(sql);
 			ResultSet rs=ps.executeQuery();
-			while(rs.next())
-			{
-				vo.setNo(rs.getInt(1));
-     			vo.setName(rs.getString(2));
-	    		vo.setSubject(rs.getString(3));
-		    	vo.setContent(rs.getString(4));
-	    		vo.setDbday(rs.getString(5));
-	    		vo.setHit(rs.getInt(6));
-			}
+			rs.next();
+		    vo.setNo(rs.getInt(1));
+     		vo.setName(rs.getString(2));
+	    	vo.setSubject(rs.getString(3));
+		    vo.setContent(rs.getString(4));
+	    	vo.setDbday(rs.getString(5));
+	    	vo.setHit(rs.getInt(6));
+			
 			rs.close();
 		}catch(Exception ex)
 		{
