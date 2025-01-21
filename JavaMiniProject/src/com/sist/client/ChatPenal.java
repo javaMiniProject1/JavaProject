@@ -24,6 +24,7 @@ public class ChatPenal extends JPanel {
         ta.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(new Color(200, 200, 200), 1),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        ta.setEditable(false);
         JScrollPane js = new JScrollPane(ta);
         bar = js.getVerticalScrollBar();
 
@@ -40,7 +41,15 @@ public class ChatPenal extends JPanel {
         // 사용자 정보 테이블
         String[] col = { "아이디", "이름", "성별" };
         String[][] row = new String[0][3];
-        model = new DefaultTableModel(row, col);
+        model = new DefaultTableModel(row, col) {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+        	
+        };
         table = new JTable(model);
         table.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         table.setRowHeight(25); 
