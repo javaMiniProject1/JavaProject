@@ -16,8 +16,8 @@ public class BoardInsert extends JPanel implements ActionListener{
     public BoardInsert(ControlPanel cp)
     {
     	this.cp=cp;
-    	titleLa=new JLabel("글쓰기",JLabel.CENTER);// <table>
-    	titleLa.setFont(new Font("맑은 고딕",Font.BOLD,30)); //<h3></h3>
+    	titleLa=new JLabel("글쓰기",JLabel.CENTER);
+    	titleLa.setFont(new Font("맑은 고딕",Font.BOLD,30));
     	setLayout(null);
     	titleLa.setBounds(10, 15, 830, 50);
     	add(titleLa);
@@ -44,9 +44,7 @@ public class BoardInsert extends JPanel implements ActionListener{
  
     	pwdLa=new JLabel("비밀번호",JLabel.CENTER);
     	pwdPf=new JPasswordField();
-    	//             Top  Right Bottom Left ==> CSS
     	pwdLa.setBounds(50, 475, 70, 30);
-    	//             x  y width heigth
     	pwdPf.setBounds(125, 475, 150, 30);
     	add(pwdLa);add(pwdPf);
     	
@@ -66,12 +64,11 @@ public class BoardInsert extends JPanel implements ActionListener{
 		// TODO Auto-generated method stub
 		if(e.getSource()==b2)
 		{
-			cp.card.show(cp, "BLIST");// 목록으로 이동
+			cp.card.show(cp, "BLIST");
 		}
 		else if(e.getSource()==b1)
 		{
 			String name=nameTf.getText();
-			// 데이터베이스에 NOT NULL을 설정한 경우 => 반드시 입력 유도
 			if(name.trim().length()<1)
 			{
 				JOptionPane.showMessageDialog(this,"이름을 입력하세요");

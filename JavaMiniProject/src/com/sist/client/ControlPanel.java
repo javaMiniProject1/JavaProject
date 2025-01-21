@@ -17,6 +17,8 @@ public class ControlPanel extends JPanel{
 	BoardInsert bInsert;
 	BoardDetail bDetail;
 	BoardUpdate bUpdate;
+	BoardReply bReply;
+	BoardDelete bDelete;
     CardLayout card=new CardLayout();
     public ControlPanel()
     {
@@ -40,6 +42,10 @@ public class ControlPanel extends JPanel{
     	add("BDETAIL",bDetail);
     	bUpdate=new BoardUpdate(this);
     	add("BUPDATE",bUpdate);
+		bReply=new BoardReply(this);
+		add("BREPLY",bReply);
+		bDelete=new BoardDelete(this);
+		add("BDELETE",bDelete);
     }
     
 }

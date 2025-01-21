@@ -13,11 +13,8 @@ public class ReplyBoardDAO {
 		try
 		{
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			// 리플랙션 => 클래스 이름으로 메모리 할당 / 메소드 제어
-			// new 역할 => 메소드명을 모르는 경우에도 호출 가능
 		}catch(Exception ex) {}
 	}
-	// 싱글턴 만들기
 	public static ReplyBoardDAO newInstance()
 	{
 		if(dao==null)
@@ -41,11 +38,7 @@ public class ReplyBoardDAO {
 				conn.close();
 		}catch(Exception ex) {}
 	}
-	//-----------------------------------------------------자바에서 오라클연동 기본(공통) => JDBC
-	// JDBC: 원시소스 => DBCP => ORM(MyBatis,Hibernate => JDA)
-	// 기능
-	// 1. 목록 출력 => 인라인뷰 => 1page 10개 => 최신순
-	// index 사용 X => 현재 추가, 수정, 삭제가 많음 => index 속도 느려짐 => ORDER BY 사용
+	
 	public List<ReplyBoardVO> boardListData(int page)
 	{
 		List<ReplyBoardVO> list=new ArrayList<ReplyBoardVO>();
@@ -65,7 +58,6 @@ public class ReplyBoardDAO {
 			ps.setInt(1, start);
 			ps.setInt(2, end);
 			
-			// 실행 요청
 			ResultSet rs=ps.executeQuery();
 			while(rs.next())
 			{
@@ -90,13 +82,13 @@ public class ReplyBoardDAO {
 		return list;
 	}
 	// 1-1. 총페이지 출력
-	public int boardTotalPage()
+	public int boardRowCount()
 	{
 		int total=0;
 		try
 		{
 			getConnection();
-			String sql="SELECT CEIL(COUNT(*)/10.0) FROM replyBoard";
+			String sql="SELECT COUNT(*) FROM replyBoard";
 			ps=conn.prepareStatement(sql);
 			ResultSet rs=ps.executeQuery();
 			rs.next();
@@ -112,13 +104,12 @@ public class ReplyBoardDAO {
 		}
 		return total;
 	}
-	// 2. 글쓰기 => INSERT
+	// 2. 글쓰기
 	public void boardInsert(ReplyBoardVO vo)
 	{
 		try
 		{
 			getConnection();
-			// 새로운 그룹 생성 => 그룹번호: group_id
 			String sql="INSERT INTO replyBoard(no,name,subject,content,pwd,group_id) "
 					+ "VALUES(rb_no_seq.nextval,?,?,?,?,(SELECT NVL(MAX(group_id)+1,1) FROM replyBoard))";
 			ps=conn.prepareStatement(sql);
@@ -126,7 +117,7 @@ public class ReplyBoardDAO {
 			ps.setString(2, vo.getSubject());
 			ps.setString(3, vo.getContent());
 			ps.setString(4, vo.getPwd());
-			ps.executeUpdate(); //commit
+			ps.executeUpdate();
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();
@@ -136,14 +127,13 @@ public class ReplyBoardDAO {
 			disConnection();
 		}
 	}
-    // 3. 상세보기 => WHERE
+    // 3. 상세보기
 	public ReplyBoardVO boardDetailData(int type,int no)
 	{
 		ReplyBoardVO vo=new ReplyBoardVO();
 		try
 		{
 			getConnection();
-			//sql 1. 조회수 증가
 			if(type==1)
 			{
 				String sql="UPDATE replyBoard SET "
@@ -152,21 +142,21 @@ public class ReplyBoardDAO {
 				ps=conn.prepareStatement(sql);
 				ps.executeUpdate();
 			}
-			//sql 2. 상세보기 내용 읽기
 			String sql="SELECT no,name,subject,content,"
 					+ "TO_CHAR(regdate,'YYYY-MM-DD HH24:MI:SS'),hit "
 					+ "FROM replyBoard "
 					+ "WHERE no="+no;
 			ps=conn.prepareStatement(sql);
-			// sql 한 기능을 수행할 때 => sql 문장은 여러 개일 수 있다
 			ResultSet rs=ps.executeQuery();
-			rs.next();
-			vo.setNo(rs.getInt(1));
-			vo.setName(rs.getString(2));
-			vo.setSubject(rs.getString(3));
-			vo.setContent(rs.getString(4));
-			vo.setDbday(rs.getString(5));
-			vo.setHit(rs.getInt(6));
+			while(rs.next())
+			{
+				vo.setNo(rs.getInt(1));
+     			vo.setName(rs.getString(2));
+	    		vo.setSubject(rs.getString(3));
+		    	vo.setContent(rs.getString(4));
+	    		vo.setDbday(rs.getString(5));
+	    		vo.setHit(rs.getInt(6));
+			}
 			rs.close();
 		}catch(Exception ex)
 		{
@@ -178,7 +168,7 @@ public class ReplyBoardDAO {
 		}
 		return vo;
 	}
-	// 4. 수정하기 => UPDATE
+	// 4. 수정하기
 	public ReplyBoardVO boardUpdateData(int no)
 	{
 		ReplyBoardVO vo=new ReplyBoardVO();
@@ -209,43 +199,10 @@ public class ReplyBoardDAO {
 	// 4.1. 실제 수정
 	public boolean boardUpdate(ReplyBoardVO vo)
 	{
-		boolean bCheck=false;// 비밀번호 처리
-		/*
-		 *  메소드: 사용자 요청 처리
-		 *  1) 사용자 요청값 받기
-		 *   => 매개변수
-		 *  2) 요청 처리 후 결과값
-		 *   => 경우의 수
-		 *   1. 목록: List<~VO>
-		 *   2. 상세보기: ~VO
-		 *   3. 비밀번호 맞다 / 아니다
-		 *            ------------boolean
-		 *   4. 경우의 수가 3개 이상
-		 *      String / int
-		 *      ------알아볼 수 있게 처리
-		 *      |로그인 처리 => NOID / NOPWD / OK
-		 *      -------------------------------자바 => 메소드 제작 => 데이터 확인(VO)
-		 *      
-		 *  1. 형식 => String
-		 *    - INSERT
-		 *     => DEFAULT가 많은 경우
-		 *       INSERT INTO table_name(컬럼,컬럼,...)
-		 *       VALUES(값,...)
-		 *     => DEFAULT가 없는 경우
-		 *       INSERT INTO table_name VALUES(값,...)
-		 *      => 날짜, 문자 => ''
-		 *    - UPDATE
-		 *      UPDATE table_name SET
-		 *      컬럼=값,컬럼=값[where 조건]
-		 *    - DELETE
-		 *      DELETE FROM fable_name
-		 *      table_name
-		 *      -------------------------------데이터 변경 
-		 */
+		boolean bCheck=false;
 		try
 		{
 			getConnection();
-			// 비밀번호
 			String sql="SELECT pwd FROM replyBoard "
 					 +"WHERE no="+vo.getNo();
 			ps=conn.prepareStatement(sql);
@@ -253,8 +210,6 @@ public class ReplyBoardDAO {
 			rs.next();
 			String db_pwd=rs.getString(1);
 			rs.close();
-			
-			// 오라클          사용자
 			if(db_pwd.equals(vo.getPwd()))
 			{
 				bCheck=true;
@@ -266,9 +221,7 @@ public class ReplyBoardDAO {
 				ps.setString(2, vo.getSubject());
 				ps.setString(3, vo.getContent());
 				ps.setInt(4, vo.getNo());
-				// 수정 명령
 				ps.executeUpdate();
-				// INSERT / UPDATE / DELETE가 여러 개인 경우(SELECT 제외) => 트랜잭션
 			}
 			else
 			{
@@ -284,6 +237,136 @@ public class ReplyBoardDAO {
 		}
 		return bCheck;
 	}
-	// 5. 답변하기 => 트랜잭션
-	// 6. 삭제하기 => 트랜잭션
+	// 5. 답변하기
+	public void replyInsert(int pno,ReplyBoardVO vo)
+	{
+		try
+		{
+			getConnection();
+			conn.setAutoCommit(false);
+			
+			String sql="SELECT group_id,group_step,group_tab "
+					 +"FROM replyBoard "
+					 +"WHERE no="+pno;
+			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			int gi=rs.getInt(1);
+			int gs=rs.getInt(2);
+			int gt=rs.getInt(3);
+			rs.close();
+			
+			sql="UPDATE replyBoard SET "
+			   +"group_step=group_step+1 "
+			   +"WHERE group_id=? AND group_step>?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, gi);
+			ps.setInt(2, gs);
+			ps.executeUpdate();
+			
+			sql="INSERT INTO replyBoard(no,name,subject,content,pwd,group_id,group_step,group_tab,root) "
+			   +"VALUES(rb_no_seq.nextval,?,?,?,?,?,?,?,?)";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, vo.getName());
+			ps.setString(2, vo.getSubject());
+			ps.setString(3, vo.getContent());
+			ps.setString(4, vo.getPwd());
+			ps.setInt(5, gi);
+			ps.setInt(6, gs+1);
+			ps.setInt(7, gt+1);
+			ps.setInt(8, pno);
+			ps.executeUpdate();
+
+			sql="UPDATE replyBoard SET "
+			   +"depth=depth+1 "
+			   +"WHERE no="+pno;
+			ps=conn.prepareStatement(sql);
+			ps.executeUpdate();
+			conn.commit();
+		}catch(Exception ex)
+		{
+			try
+			{
+				conn.rollback();
+			}catch(Exception e) {}
+			ex.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				conn.setAutoCommit(true);
+			}catch(Exception ex) {}
+		}
+	}
+	// 6. 삭제하기
+	public boolean replyDelete(int no,String pwd)
+	{
+		boolean bCheck=false;
+		try
+		{
+			getConnection();
+			conn.setAutoCommit(false);
+			String sql="SELECT pwd,root,depth "
+					 +"FROM replyBoard "
+					 +"WHERE no="+no;
+			ps=conn.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			String db_pwd=rs.getString(1);
+			int root=rs.getInt(2);
+			int depth=rs.getInt(3);
+			rs.close();
+			
+			if(db_pwd.equals(pwd))
+			{
+				bCheck=true;
+				if(depth==0)
+				{
+					sql="DELETE FROM replyBoard "
+						+"WHERE no="+no;
+					ps=conn.prepareStatement(sql);
+					ps.executeUpdate();
+				}
+				else
+				{
+					String msg="관리자가 삭제한 게시물입니다";
+					sql="UPDATE replyBoard SET "
+						+"subject=?,content=? "
+						+"WHERE no=?";
+					ps=conn.prepareStatement(sql);
+					ps.setString(1, msg);
+					ps.setString(2, msg);
+					ps.setInt(3, no);
+					ps.executeUpdate();
+				}
+					sql="UPDATE replyBoard SET "
+						+"depth=depth-1 "
+						+"WHERE no="+root;
+					ps=conn.prepareStatement(sql);
+					ps.executeUpdate();
+			}
+			else
+			{
+				bCheck=false;
+			}
+			conn.commit();
+		}catch(Exception ex)
+		{
+			try
+			{
+				conn.rollback();
+			}catch(Exception e) {}
+			ex.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				conn.setAutoCommit(true);
+			}catch(Exception ex) {}
+			disConnection();
+		}
+		return bCheck;
+	}
 }

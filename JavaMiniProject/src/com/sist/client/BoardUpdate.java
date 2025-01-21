@@ -16,12 +16,12 @@ implements ActionListener
     JPasswordField pwdPf;
     JTextArea ta;
     JButton b1,b2;
-    ControlPanel cp;// 화면 변경 => 취소 / 수정 
+    ControlPanel cp;
     public BoardUpdate(ControlPanel cp)
     {
     	this.cp=cp;
-    	titleLa=new JLabel("수정하기",JLabel.CENTER);// <table>
-    	titleLa.setFont(new Font("맑은 고딕",Font.BOLD,30)); //<h3></h3>
+    	titleLa=new JLabel("수정하기",JLabel.CENTER);
+    	titleLa.setFont(new Font("맑은 고딕",Font.BOLD,30)); 
     	setLayout(null);
     	titleLa.setBounds(10, 15, 830, 50);
     	add(titleLa);
@@ -30,7 +30,6 @@ implements ActionListener
     	noLa.setBounds(340, 70, 20, 30);
     	add(noLa);
     	noLa.setVisible(false);
-    	// <input type=hidden>
     	
     	nameLa=new JLabel("이름",JLabel.CENTER);
     	nameTf=new JTextField();
@@ -54,9 +53,7 @@ implements ActionListener
  
     	pwdLa=new JLabel("비밀번호",JLabel.CENTER);
     	pwdPf=new JPasswordField();
-    	//             Top  Right Bottom Left ==> CSS
     	pwdLa.setBounds(50, 475, 70, 30);
-    	//             x  y width heigth
     	pwdPf.setBounds(125, 475, 150, 30);
     	add(pwdLa);add(pwdPf);
     	
@@ -72,7 +69,6 @@ implements ActionListener
     	b2.addActionListener(this);
     	
     }
-    // 값을 채운다 => 수정 (이전에 입력한 값을 가지고 온다)
     public void print(ReplyBoardVO vo)
     {
     	nameTf.setText(vo.getName());
@@ -89,16 +85,13 @@ implements ActionListener
 		}
 		else if(e.getSource()==b1)
 		{
-			// 실제 수정 
 			String name=nameTf.getText();
-			// NOT NULL을 설정한 경우 => 반드시 입력 유도 
 			if(name.trim().length()<1)
 			{
 				nameTf.requestFocus();
 				return;
 			}
 			String subject=subTf.getText();
-			// NOT NULL을 설정한 경우 => 반드시 입력 유도 
 			if(subject.trim().length()<1)
 			{
 				subTf.requestFocus();
@@ -106,7 +99,6 @@ implements ActionListener
 			}
 			
 			String content=ta.getText();
-			// NOT NULL을 설정한 경우 => 반드시 입력 유도 
 			if(content.trim().length()<1)
 			{
 				ta.requestFocus();
@@ -114,7 +106,6 @@ implements ActionListener
 			}
 			
 			String pwd=String.valueOf(pwdPf.getPassword());
-			// NOT NULL을 설정한 경우 => 반드시 입력 유도 
 			if(pwd.trim().length()<1)
 			{
 				pwdPf.requestFocus();
@@ -135,36 +126,19 @@ implements ActionListener
 			ReplyBoardDAO dao=
 					ReplyBoardDAO.newInstance();
 			boolean bCheck=dao.boardUpdate(vo);
-			
-			// List => Detail => 조회수 증가 (O) => type==1
-			// Update => Detail => 조회수 증가(X) => type==2
-			if(bCheck==true)// 수정한 상태
+		
+			if(bCheck==true)
 			{
 				cp.card.show(cp, "BDETAIL");
 				cp.bDetail.print(2,vo.getNo());
-				// 조회수가 증가없이 
 			}
-			else // 비밀번호가 틀리다
+			else
 			{
 				JOptionPane.showMessageDialog(this, 
 						"비밀번호가 틀립니다\n다시 입력하세요");
 				pwdPf.setText("");
 				pwdPf.requestFocus();
 			}
-			
 		}
 	}
-	/*
-	 *   게시판 => 최종으로 보여주는 화면 
-	 *           ------------------
-	 *           BoardList     BoardDetail
-	 *              |               |
-	 *           BoardInsert   BoardUpdate : 내용을 변경
-	 *           BoardReply
-	 *           BoardDelete
-	 *           ---------------- 웹/윈도우 => 동일 
-	 *           
-	 *           card.show(카드명) 
-	 *           response.sendRedirect(파일명)
-	 */
 }

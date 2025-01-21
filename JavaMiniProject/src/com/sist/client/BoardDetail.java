@@ -1,8 +1,6 @@
 package com.sist.client;
 import java.awt.Color;
 import java.awt.Font;
-
-// detail.jsp
 import javax.swing.*;
 
 import com.sist.dao.ReplyBoardDAO;
@@ -19,8 +17,8 @@ implements ActionListener
      public  BoardDetail(ControlPanel cp)
      {
     	 this.cp=cp;
-    	 titleLa=new JLabel("내용보기",JLabel.CENTER);// <table>
-     	 titleLa.setFont(new Font("맑은 고딕",Font.BOLD,30)); //<h3></h3>
+    	 titleLa=new JLabel("내용보기",JLabel.CENTER);
+     	 titleLa.setFont(new Font("맑은 고딕",Font.BOLD,30));
      	 
      	 setLayout(null);
     	 titleLa.setBounds(10, 15, 830, 50);
@@ -54,9 +52,6 @@ implements ActionListener
     	 hitLa.setBounds(420, 110, 110, 30);
     	 hitLa.setBackground(Color.GREEN);
      	 hitLa.setOpaque(true);
-     	 // JLabel => 투명 모드 
-     	 // => 불투명 모드 
-     	 // opacity 
     	 hit=new JLabel("",JLabel.CENTER);
     	 hit.setBounds(535, 110, 300, 30);
     	 add(hitLa);add(hit);
@@ -70,7 +65,7 @@ implements ActionListener
     	 add(subLa);add(sub);
     	 
     	 ta=new JTextArea();
-    	 ta.setEditable(false); // 비활성화 
+    	 ta.setEditable(false);
     	 ta.setBounds(50, 180, 705, 320);
     	 add(ta);
     	 
@@ -83,10 +78,10 @@ implements ActionListener
     	 p.setBounds(170, 510, 485, 35);
     	 add(p);
     	 
-    	 b1.addActionListener(this);//수정 
-    	 b2.addActionListener(this);//삭제
-    	 b3.addActionListener(this);//목록
-    	 b4.addActionListener(this);//답변 
+    	 b1.addActionListener(this);
+    	 b2.addActionListener(this);
+    	 b3.addActionListener(this);
+    	 b4.addActionListener(this);
      }
      public void print(int type,int n)
      {
@@ -106,10 +101,8 @@ implements ActionListener
 		// TODO Auto-generated method stub
 		if(e.getSource()==b3)
 		{
-			cp.card.show(cp,"BLIST");// 목록으로 이동
-			cp.bList.print();// 데이터베이스에서 다시 읽기
-			// 웹 => javascript:history.back() => 조회수 증가가 안된다
-			// <a href="list.jsp">목록</a>
+			cp.card.show(cp,"BLIST");
+			cp.bList.print();
 		}
 		else if(e.getSource()==b1)// 수정
 		{
@@ -122,11 +115,21 @@ implements ActionListener
 		}
 		else if(e.getSource()==b2)// 삭제
 		{
-			
+			String strNo=no.getText();
+			cp.bDelete.pf.setText("");
+			cp.card.show(cp, "BDELETE");
+			cp.bDelete.noLa.setText(strNo);
+			cp.bDelete.pf.requestFocus();
 		}
 		else if(e.getSource()==b4)// 답변
 		{
-			
+			String strNo=no.getText();
+			cp.bReply.nameTf.setText("");
+			cp.bReply.subTf.setText("");
+			cp.bReply.ta.setText("");
+			cp.bReply.pwdPf.setText("");
+			cp.card.show(cp, "BREPLY");
+			cp.bReply.noLa.setText(strNo);
 		}
 	}
 }
