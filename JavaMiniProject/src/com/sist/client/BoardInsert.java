@@ -101,7 +101,7 @@ public class BoardInsert extends JPanel implements ActionListener{
 			vo.setName(name);
 			vo.setSubject(subject);
 			vo.setContent(content);
-			vo.setPwd(content);
+			vo.setPwd(pwd);
 			
 			dao.boardInsert(vo);
 			cp.bList.curpage=1;
