@@ -9,6 +9,7 @@ import com.sist.dao.*;
 ///////////////// 네트워크 통신 
 import java.io.*;
 import java.util.*;
+import java.util.List;
 import java.net.*;
 //                         상속 => 재사용 => 변경 
 /*
@@ -31,9 +32,11 @@ implements ActionListener,Runnable,KeyListener, MouseListener
     ControlPanel cp=new ControlPanel();
     Login login=new Login();
     int selectRow = -1;
+    private String currentUserId;
 	// 배치 
     // 데이터베이스 
     MemberDAO mDao=MemberDAO.newInstance();
+	FriendDAO fDao = FriendDAO.newInstance();
 	public ClientMainFrame()
 	{
 		setLayout(null); // 사용자 정의 => 직접 배치
@@ -65,6 +68,9 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 		cp.cp.table.addMouseListener(this);
 		cp.cp.b2.addActionListener(this); // 정보보기
 		cp.cp.b1.addActionListener(this); // 쪽지보내기
+		
+    	cp.cp.addFriendBtn.addActionListener(this); // 친구추가
+		cp.cp.listFriendBtn.addActionListener(this); // 친구목록
 		
 		addWindowListener(new WindowAdapter() {
 
@@ -116,6 +122,7 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 				  {
 					  String id=st.nextToken();
 					  setTitle(id);
+					  currentUserId = id; // 여기서 현재 ID 구함
 					  login.setVisible(false);
 					  setVisible(true);
 				  }
@@ -147,6 +154,9 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 				}
 			}
 		}catch(Exception ex) {}
+	}
+	public String getCurrentUserId() {
+	    return currentUserId;
 	}
 	// 서버에 요청 => 로그인 / 채팅 보내기 
 	@Override
@@ -247,6 +257,40 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 					+ "닉네임 : " + vo.getNickname() + "\n"
 					+ "성별 : " + vo.getSex();
 			JOptionPane.showMessageDialog(this, info);
+		} else if (e.getSource() == cp.cp.addFriendBtn) {
+			int selectedRow = cp.cp.table.getSelectedRow();
+			
+			String receiverId = cp.cp.model.getValueAt(selectedRow, 0).toString();
+			String requesterId = getCurrentUserId();
+			
+			if (fDao.isAlreadyFriend(requesterId, receiverId)) {
+				JOptionPane.showMessageDialog(this, "이미 친구인 상대입니다");
+				return;
+			}
+			
+			
+			try {
+				fDao.addFriend(requesterId, receiverId);
+				
+				JOptionPane.showMessageDialog(this, "친구 요청을 보냈습니다");
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(this, "친구 요청에 실패했습니다");
+			}
+		} else if (e.getSource() == cp.cp.listFriendBtn) {
+			String currentUserId = getCurrentUserId();
+			
+			List<String> friendList = fDao.getFriendList(currentUserId);
+			
+			if (friendList.isEmpty()) {
+				JOptionPane.showMessageDialog(this, "친구 목록이 비어있습니다.");
+			} else {
+				StringBuilder friends = new StringBuilder("친구 목록:\n");
+				for (String friend : friendList) {
+					friends.append(friend).append("\n");
+				}
+				JOptionPane.showMessageDialog(this, friends.toString(), "친구 목록", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 	}
 	public void connection(MemberVO vo)
@@ -298,9 +342,11 @@ implements ActionListener,Runnable,KeyListener, MouseListener
 			if (myId.equals(id)) {
 				cp.cp.b1.setEnabled(false);
 				cp.cp.b2.setEnabled(false);
+				cp.cp.addFriendBtn.setEnabled(false);
 			} else {
 				cp.cp.b1.setEnabled(true);
 				cp.cp.b2.setEnabled(true);	
+				cp.cp.addFriendBtn.setEnabled(true);
 			}
 		}
 	}

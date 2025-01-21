@@ -10,7 +10,7 @@ public class ChatPenal extends JPanel {
     JTextField tf;
     JTable table;
     DefaultTableModel model;
-    JButton b1, b2, inputChatBtn;
+    JButton b1, b2, inputChatBtn, addFriendBtn, listFriendBtn;
     JScrollBar bar;
     ControlPanel cp;
 
@@ -60,9 +60,11 @@ public class ChatPenal extends JPanel {
         
         b1 = new JButton("쪽지보내기");
         b2 = new JButton("정보보기");
+        addFriendBtn = new JButton("친구추가");
+        listFriendBtn = new JButton("친구목록");
 
         // 버튼 디자인 개선
-        JButton[] buttons = { b1, b2 };
+        JButton[] buttons = { b1, b2, addFriendBtn, listFriendBtn };
         for (JButton button : buttons) {
             button.setFont(new Font("맑은 고딕", Font.BOLD, 14));
             button.setBackground(new Color(76, 175, 80)); 
@@ -95,7 +97,9 @@ public class ChatPenal extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(b1);
         buttonPanel.add(b2);
-        buttonPanel.setBounds(510, 330, 280, 35);
+        buttonPanel.add(addFriendBtn);
+        buttonPanel.add(listFriendBtn);
+        buttonPanel.setBounds(510, 330, 280, 60);
         add(buttonPanel);
     }
 }
